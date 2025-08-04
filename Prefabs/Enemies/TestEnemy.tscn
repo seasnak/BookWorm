@@ -1,0 +1,140 @@
+[gd_scene load_steps=18 format=3 uid="uid://c6rkxn7mcqrep"]
+
+[ext_resource type="Script" uid="uid://cyphskrrs5p11" path="res://Scripts/Enemy/Enemy.cs" id="1_jguyy"]
+[ext_resource type="PackedScene" uid="uid://ujpi0otr0il1" path="res://Prefabs/Components/HitboxComponent.tscn" id="2_fmhgs"]
+[ext_resource type="PackedScene" uid="uid://b1u8qakuf7jk5" path="res://Prefabs/Components/EnergyComponent.tscn" id="2_xmor1"]
+[ext_resource type="Shader" uid="uid://bxcaq6yegpeeq" path="res://Shaders/hitflash.gdshader" id="2_yf3q6"]
+[ext_resource type="PackedScene" uid="uid://ca1yntao5twoo" path="res://Prefabs/Components/HealthComponent.tscn" id="3_13jeh"]
+[ext_resource type="Texture2D" uid="uid://dpuice5s40gxt" path="res://Sprites/CartoonEnemy/staple remover.png" id="3_57uj0"]
+[ext_resource type="PackedScene" uid="uid://cst4slcygoxrr" path="res://Prefabs/Components/HurtboxComponent.tscn" id="3_egr5t"]
+[ext_resource type="PackedScene" uid="uid://bdr3a68srsvuu" path="res://Prefabs/Bullets/gun.tscn" id="8_13jeh"]
+[ext_resource type="PackedScene" uid="uid://bgak7bp8nwgxj" path="res://Prefabs/Bullets/staple.tscn" id="9_57uj0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rpo0x"]
+resource_local_to_scene = true
+shader = ExtResource("2_yf3q6")
+shader_parameter/active = false
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g0og0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_57uj0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_57uj0"]
+points = PackedVector2Array(5, -11.9375, -11, -2.9375, -10, 4.0625, 1, 13.0625, 11, 10.0625)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ggkdx"]
+size = Vector2(16, 16)
+
+[sub_resource type="Animation" id="Animation_rpo0x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_xmor1"]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_yf3q6"]
+resource_name = "hitflash"
+length = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rpo0x"]
+_data = {
+&"RESET": SubResource("Animation_rpo0x"),
+&"default": SubResource("Animation_xmor1"),
+&"hitflash": SubResource("Animation_yf3q6")
+}
+
+[node name="TestEnemy" type="CharacterBody2D" node_paths=PackedStringArray("gun")]
+collision_mask = 9
+script = ExtResource("1_jguyy")
+gun = NodePath("StapleGun")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_rpo0x")
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_g0og0")
+
+[node name="EnergyComponent" parent="." instance=ExtResource("2_xmor1")]
+position = Vector2(7.07692, -21.7049)
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_13jeh")]
+position = Vector2(7.07692, -21.7049)
+
+[node name="HitboxComponent" parent="." instance=ExtResource("2_fmhgs")]
+scale = Vector2(0.8, 0.8)
+collision_layer = 4
+shape = "Square"
+
+[node name="HurtboxComponent" parent="." instance=ExtResource("3_egr5t")]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+position = Vector2(-1, -0.0624976)
+shape = SubResource("ConvexPolygonShape2D_57uj0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ggkdx")
+
+[node name="HitflashAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rpo0x")
+}
+
+[node name="StapleGun" parent="." instance=ExtResource("8_13jeh")]
+name = "Staple Gun"
+mag_size = 9999
+bullet = ExtResource("9_57uj0")
+time_between_shots = 1000
+normal_reload_time = 0
+damage_source = 0
+
+[editable path="HitboxComponent"]
+[editable path="HurtboxComponent"]

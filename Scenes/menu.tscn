@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6ff76bd4sf60"]
+
+[ext_resource type="Script" uid="uid://fvhrstmwc1jv" path="res://Scripts/UI/MainMenu.cs" id="1_1rerr"]
+[ext_resource type="Texture2D" uid="uid://gf2hhm3kexyf" path="res://Sprites/UI/titlelogo-transparent.png" id="2_xhh6f"]
+
+[node name="Menu" type="Node2D"]
+script = ExtResource("1_1rerr")
+
+[node name="Button" type="Button" parent="."]
+offset_left = -386.0
+offset_top = 217.0
+offset_right = -179.0
+offset_bottom = 289.0
+text = "START GAME"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 61.0
+offset_top = -308.0
+offset_right = 690.0
+offset_bottom = 362.0
+scale = Vector2(0.8, 0.8)
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[center]Move: WASD / Left Stick 
+Shoot: Mouse/Right Stick
+Draw Loop: Space / LB
+Dash: LShift / RB
+Quit: Escape
+
+Defeat enemies by getting their health to zero, then creating
+a loop around them![/center]"
+fit_content = true
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(-259, -88)
+scale = Vector2(0.619372, 0.583082)
+texture = ExtResource("2_xhh6f")
+
+[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]

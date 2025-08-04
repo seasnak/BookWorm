@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://bgak7bp8nwgxj"]
+
+[ext_resource type="Script" uid="uid://dki1wctaus0tf" path="res://Scripts/Weapons/Bullets/Alphabullet.cs" id="1_vdk2q"]
+[ext_resource type="PackedScene" uid="uid://ujpi0otr0il1" path="res://Prefabs/Components/HitboxComponent.tscn" id="2_xf7r8"]
+[ext_resource type="Shader" uid="uid://bekuxpdn1ry68" path="res://Shaders/wobble.gdshader" id="3_x0e7g"]
+[ext_resource type="Texture2D" uid="uid://rucl28hgegdk" path="res://Sprites/Bullets/staple.png" id="4_vdk2q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bxm2j"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_x0e7g")
+shader_parameter/wave_amplitude = 0.1
+shader_parameter/wave_frequency = 10.0
+shader_parameter/wave_speed = 1.0
+shader_parameter/vertical_wobble = true
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vdk2q"]
+radius = 4.0
+height = 12.0
+
+[node name="Staple" type="Node2D"]
+script = ExtResource("1_vdk2q")
+lifespan = 1000
+damage = 10
+rotation_speed = 2.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_bxm2j")
+position = Vector2(0, -2)
+texture = ExtResource("4_vdk2q")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("2_xf7r8")]
+radius = 4.0
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+position = Vector2(0, -2)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_vdk2q")
+
+[editable path="HitboxComponent"]

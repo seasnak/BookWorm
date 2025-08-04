@@ -1,0 +1,86 @@
+[gd_scene load_steps=14 format=3 uid="uid://cyij5xapg7pn6"]
+
+[ext_resource type="Script" uid="uid://3i0l5pvvfor1" path="res://Scripts/Player/Player.cs" id="1_vxq8l"]
+[ext_resource type="PackedScene" uid="uid://cst4slcygoxrr" path="res://Prefabs/Components/HurtboxComponent.tscn" id="2_gg3t4"]
+[ext_resource type="Texture2D" uid="uid://dfsk4yj02mvkv" path="res://Sprites/CartoonEnemy/head.png" id="3_3ygst"]
+[ext_resource type="Shader" uid="uid://bxcaq6yegpeeq" path="res://Shaders/hitflash.gdshader" id="3_gg3t4"]
+[ext_resource type="PackedScene" uid="uid://ca1yntao5twoo" path="res://Prefabs/Components/HealthComponent.tscn" id="5_gg3t4"]
+[ext_resource type="PackedScene" uid="uid://b1u8qakuf7jk5" path="res://Prefabs/Components/EnergyComponent.tscn" id="6_javds"]
+[ext_resource type="Script" uid="uid://c1lt053sa4pym" path="res://Scripts/Weapons/Gun.cs" id="7_javds"]
+[ext_resource type="PackedScene" uid="uid://c02hwila7n6kv" path="res://Prefabs/Bullets/alphabullet.tscn" id="8_3ygst"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_javds"]
+shader = ExtResource("3_gg3t4")
+shader_parameter/active = false
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ggkdx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3ygst")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vy56e"]
+size = Vector2(17, 21)
+
+[sub_resource type="Animation" id="Animation_gg3t4"]
+resource_name = "hitlfash"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_javds"]
+_data = {
+&"hitlfash": SubResource("Animation_gg3t4")
+}
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gun")]
+collision_mask = 5
+script = ExtResource("1_vxq8l")
+gun = NodePath("AlphabetSoupGun")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_javds")
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_ggkdx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -1.5)
+shape = SubResource("RectangleShape2D_vy56e")
+
+[node name="HurtboxComponent" parent="." instance=ExtResource("2_gg3t4")]
+scale = Vector2(0.8, 0.8)
+
+[node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+position = Vector2(0.624999, -3.125)
+scale = Vector2(0.999999, 0.999999)
+
+[node name="HealthComponent" parent="." instance=ExtResource("5_gg3t4")]
+
+[node name="EnergyComponent" parent="." instance=ExtResource("6_javds")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_javds")
+}
+
+[node name="AlphabetSoupGun" type="Node2D" parent="."]
+script = ExtResource("7_javds")
+name = "Alphabet Soup Gun"
+bullet = ExtResource("8_3ygst")
+
+[editable path="HurtboxComponent"]

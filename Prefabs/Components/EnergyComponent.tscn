@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1u8qakuf7jk5"]
+
+[ext_resource type="Script" uid="uid://be727oua5pcj8" path="res://Scripts/Components/EnergyComponent.cs" id="1_swvjs"]
+
+[node name="EnergyComponent" type="Node2D"]
+script = ExtResource("1_swvjs")

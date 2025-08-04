@@ -1,0 +1,28 @@
+using Godot;
+using System;
+
+using Gmtk.Autoload;
+
+namespace Gmtk.UI;
+public partial class MainMenu : Node
+{
+    public override void _Ready()
+    {
+        Button button = GetNode<Button>("Button");
+        button.ButtonUp += OnButtonUp;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Input.IsActionJustPressed("Quit"))
+        {
+            GetTree().Quit();
+        }
+    }
+
+    public void OnButtonUp()
+    {
+        TempStats.num_enemies_killed = 0;
+        GetTree().ChangeSceneToFile("res://Scenes/testscene.tscn");
+    }
+}

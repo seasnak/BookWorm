@@ -1,0 +1,208 @@
+[gd_scene load_steps=27 format=3 uid="uid://52xvttenduj1"]
+
+[ext_resource type="Script" uid="uid://b1jans5e0cwx6" path="res://Scripts/Enemy/StapleRemover.cs" id="1_x6m3m"]
+[ext_resource type="Shader" uid="uid://bxcaq6yegpeeq" path="res://Shaders/hitflash.gdshader" id="2_qs67t"]
+[ext_resource type="Texture2D" uid="uid://dpuice5s40gxt" path="res://Sprites/CartoonEnemy/staple remover.png" id="3_ano46"]
+[ext_resource type="Texture2D" uid="uid://dkkwr3kfnl5rn" path="res://Sprites/Effects/death_anim-sheet.png" id="3_qs67t"]
+[ext_resource type="PackedScene" uid="uid://b1u8qakuf7jk5" path="res://Prefabs/Components/EnergyComponent.tscn" id="4_i8xe2"]
+[ext_resource type="PackedScene" uid="uid://ca1yntao5twoo" path="res://Prefabs/Components/HealthComponent.tscn" id="5_6sv4c"]
+[ext_resource type="PackedScene" uid="uid://ujpi0otr0il1" path="res://Prefabs/Components/HitboxComponent.tscn" id="6_eqqo5"]
+[ext_resource type="PackedScene" uid="uid://cst4slcygoxrr" path="res://Prefabs/Components/HurtboxComponent.tscn" id="7_0h5x0"]
+[ext_resource type="Shape2D" uid="uid://hacdvucrj1mq" path="res://Shapes/stapleremover_shape.tres" id="8_qrqv5"]
+[ext_resource type="PackedScene" uid="uid://bdr3a68srsvuu" path="res://Prefabs/Bullets/gun.tscn" id="9_0pbcv"]
+[ext_resource type="PackedScene" uid="uid://bgak7bp8nwgxj" path="res://Prefabs/Bullets/staple.tscn" id="10_kicx3"]
+[ext_resource type="Texture2D" uid="uid://jqs2en5ivgum" path="res://Sprites/UI/simple_healthbar.png" id="12_ano46"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rpo0x"]
+resource_local_to_scene = true
+shader = ExtResource("2_qs67t")
+shader_parameter/active = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qs67t"]
+atlas = ExtResource("3_qs67t")
+region = Rect2(0, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ano46"]
+atlas = ExtResource("3_qs67t")
+region = Rect2(160, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8xe2"]
+atlas = ExtResource("3_qs67t")
+region = Rect2(320, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6sv4c"]
+atlas = ExtResource("3_qs67t")
+region = Rect2(480, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqqo5"]
+atlas = ExtResource("3_qs67t")
+region = Rect2(640, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0h5x0"]
+atlas = ExtResource("3_qs67t")
+region = Rect2(800, 0, 160, 160)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g0og0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qs67t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ano46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i8xe2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6sv4c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqqo5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0h5x0")
+}],
+"loop": false,
+"name": &"death",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ano46")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_x6m3m"]
+points = PackedVector2Array(5, -15, -15, -3.75, -13.75, 5, 0, 16.25, 15, 7.5, -3.75, 0, 7.5, -10)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_qs67t"]
+points = PackedVector2Array(3, -12.9375, -12, -2.9375, -11, 4.0625, 0, 13, 11, 11.0625, 12, 1.0625)
+
+[sub_resource type="Animation" id="Animation_rpo0x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_xmor1"]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_yf3q6"]
+resource_name = "hitflash"
+length = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rpo0x"]
+_data = {
+&"RESET": SubResource("Animation_rpo0x"),
+&"default": SubResource("Animation_xmor1"),
+&"hitflash": SubResource("Animation_yf3q6")
+}
+
+[node name="StapleRemover" type="CharacterBody2D" node_paths=PackedStringArray("health", "healthbar", "hurtbox", "hitbox", "collider", "sprite", "gun")]
+collision_mask = 9
+script = ExtResource("1_x6m3m")
+health = NodePath("HealthComponent")
+healthbar = NodePath("HealthBar")
+hurtbox = NodePath("HurtboxComponent")
+hitbox = NodePath("HitboxComponent")
+collider = NodePath("CollisionShape2D")
+sprite = NodePath("AnimatedSprite2D")
+gun = NodePath("StapleGun")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_rpo0x")
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_g0og0")
+
+[node name="EnergyComponent" parent="." instance=ExtResource("4_i8xe2")]
+position = Vector2(7.07692, -21.7049)
+
+[node name="HealthComponent" parent="." instance=ExtResource("5_6sv4c")]
+position = Vector2(7.07692, -21.7049)
+
+[node name="HitboxComponent" parent="." instance=ExtResource("6_eqqo5")]
+scale = Vector2(0.8, 0.8)
+collision_layer = 4
+shape = "Square"
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("ConvexPolygonShape2D_x6m3m")
+
+[node name="HurtboxComponent" parent="." instance=ExtResource("7_0h5x0")]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+position = Vector2(-1, -0.0624976)
+shape = ExtResource("8_qrqv5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("ConvexPolygonShape2D_qs67t")
+
+[node name="HitflashAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rpo0x")
+}
+
+[node name="StapleGun" parent="." instance=ExtResource("9_0pbcv")]
+name = "Staple Gun"
+mag_size = 9999
+bullet = ExtResource("10_kicx3")
+time_between_shots = 1000
+normal_reload_time = 0
+damage_source = 0
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+offset_left = -10.0
+offset_top = -14.0
+offset_right = 110.0
+offset_bottom = -8.0
+scale = Vector2(0.15, 0.15)
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 1
+stretch_margin_top = 1
+stretch_margin_right = 1
+stretch_margin_bottom = 1
+texture_progress = ExtResource("12_ano46")
+
+[editable path="HitboxComponent"]
+[editable path="HurtboxComponent"]
