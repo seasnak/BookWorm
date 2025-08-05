@@ -1,8 +1,7 @@
 using Godot;
-using System;
 
 namespace Bookworm.Entity;
-public partial class PlayerUtils : Node
+public partial class EntityUtils : Node
 {
     public enum PlayerState
     {
@@ -17,4 +16,7 @@ public partial class PlayerUtils : Node
         PASSIVE,
         AGGRO,
     }
+
+    public const uint PLAYER_HURTBOX_COLLISION_LAYER = 0b0100;
+    public const uint ENEMY_HURTBOX_COLLISION_LAYER = 0b1000;
 }

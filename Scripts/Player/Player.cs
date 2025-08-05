@@ -55,7 +55,7 @@ public partial class Player : CharacterBody2D
     private bool checked_loop_for_enemies = false;
 
     // Sprite Related Variables
-    private PlayerUtils.PlayerState current_action;
+    private EntityUtils.PlayerState current_action;
     private Vector2 movement_input;
 
     // Signals
@@ -68,12 +68,14 @@ public partial class Player : CharacterBody2D
             try { health = GetNode<HealthComponent>("HealthComponent"); }
             catch { GD.PrintErr("Could not find Player HealthComponent"); }
         }
+        health.SetCurrentHealth(health.MaxHealth);
 
         if (energy == null)
         {
             try { energy = GetNode<EnergyComponent>("EnergyComponent"); }
             catch { GD.PrintErr("Could not find Player EnergyComponent"); }
         }
+        energy.SetCurrentEnergy(energy.MaxEnergy);
 
         if (sprite == null)
         {
@@ -91,6 +93,9 @@ public partial class Player : CharacterBody2D
                 return;
             }
         }
+        drawing_line.Width = 3.0f;
+        drawing_line.DefaultColor = new(1f, 1f, 1f, 0.5f);
+        draw_duration = energy.CurrEnergy * draw_duration_per_energy;
 
         if (hurtbox == null)
         {
@@ -103,13 +108,6 @@ public partial class Player : CharacterBody2D
             try { gun = GetNode<Gun>("Gun"); }
             catch { GD.PrintErr("Could not find Player Gun"); }
         }
-
-        drawing_line.Width = 3.0f;
-        drawing_line.DefaultColor = new(1f, 1f, 1f, 0.5f);
-
-        health.SetCurrentHealth(health.MaxHealth);
-        energy.SetCurrentEnergy(energy.MaxEnergy);
-        draw_duration = energy.CurrEnergy * draw_duration_per_energy;
 
         hurtbox.HurtboxHit += OnPlayerHit;
         uint PLAYER_HURTBOX_COLLISION_MASK = 0b0100;
@@ -136,7 +134,7 @@ public partial class Player : CharacterBody2D
 
     private void UpdateSprites()
     {
-        // if (current_action == PlayerUtils.PlayerState.DRAWING)
+        // if (current_action == EntityUtils.PlayerState.DRAWING)
         // {
         //     return;
         // }
@@ -252,6 +250,7 @@ public partial class Player : CharacterBody2D
     {
         if (Input.IsActionPressed("Shoot") && !is_drawing)
         {
+
             gun.ShootGun(GetGlobalMousePosition());
         }
     }
