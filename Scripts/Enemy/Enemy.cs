@@ -1,11 +1,11 @@
 using System;
 using Godot;
 
-using Gmtk.Components;
-using Gmtk.Weapon;
-using Gmtk.Autoload;
+using Bookworm.Components;
+using Bookworm.Weapon;
+using Bookworm.Autoload;
 
-namespace Gmtk.Enemy;
+namespace Bookworm.Entity;
 public partial class Enemy : CharacterBody2D
 {
     protected string enemy_name;
@@ -98,7 +98,7 @@ public partial class Enemy : CharacterBody2D
         {
             if (GetParent().GetNodeOrNull("Player") != null)
             {
-                gun.ShootGun(GetNode<Player.Player>("/root/World/Player").Position);
+                gun.ShootGun(GetNode<Player>("/root/World/Player").Position);
             }
             else
             {

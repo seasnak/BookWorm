@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-using Gmtk.Autoload;
+using Bookworm.Autoload;
 
-namespace Gmtk.UI;
+namespace Bookworm.UI;
 public partial class MainMenu : Node
 {
     public override void _Ready()

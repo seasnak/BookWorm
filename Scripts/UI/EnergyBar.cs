@@ -1,13 +1,13 @@
 using Godot;
 using System;
 
-using Gmtk.Player;
+using Bookworm.Entity;
 
-namespace Gmtk.UI;
+namespace Bookworm.UI;
 public partial class EnergyBar : TextureProgressBar
 {
 
-    [Export] private Player.Player player;
+    [Export] private Entity.Player player;
 
     [Export] private Godot.Vector2 ENERGYBAR_SCALE = new(1, 1);
     [Export] private Godot.Vector2 ENERGYBAR_POSITION = new(10, 35);
@@ -18,7 +18,7 @@ public partial class EnergyBar : TextureProgressBar
     {
         if (player == null)
         {
-            player = GetNode<Player.Player>("/root/World/Player");
+            player = GetNode<Entity.Player>("/root/World/Player");
         }
 
         this.Position = ENERGYBAR_POSITION;

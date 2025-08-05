@@ -2,15 +2,17 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-using Gmtk.Components;
-using Gmtk.Weapon;
-using Gmtk.Autoload;
+using Bookworm.Components;
+using Bookworm.Weapon;
+using Bookworm.Autoload;
 
-namespace Gmtk.Player;
+namespace Bookworm.Entity;
 public partial class Player : CharacterBody2D
 {
     // Stats
     private int movespeed = 75;
+    private int movespeed_while_attacking = 65;
+    private int movespeed_while_drawing = 125;
     private int dashspeed = 250;
 
     public int Movespeed { get => movespeed; set => movespeed = value; }
@@ -26,7 +28,6 @@ public partial class Player : CharacterBody2D
     private int draw_duration;
 
     private int invuln_duration = 100;
-
 
     public int DashDuration { get => dash_duration; set => dash_duration = value; }
     public int DrawDuration { get => draw_duration; set => draw_duration = value; }
@@ -53,8 +54,20 @@ public partial class Player : CharacterBody2D
     private bool can_dash = true;
     private bool checked_loop_for_enemies = false;
 
+    // Sprite Related Variables
+    private Vector2 input_direction = new(0, 0);
+    private PlayerAction current_action;
+
     // Signals
     [Signal] public delegate void CanDashEventHandler(bool can_dash);
+
+    private enum PlayerAction
+    {
+        WALKING,
+        DASHING,
+        DRAWING,
+        ATTACKING,
+    }
 
     public override void _Ready()
     {
@@ -107,14 +120,9 @@ public partial class Player : CharacterBody2D
         draw_duration = energy.CurrEnergy * draw_duration_per_energy;
 
         hurtbox.HurtboxHit += OnPlayerHit;
-        uint PLAYER_HURTBOX_COLLISION_MASK = 0b0100; // layer 3
-        // hurtbox.CollisionLayer = 0b0;
-        // hurtbox.CollisionMask = PLAYER_HURTBOX_COLLISION_MASK;
+        uint PLAYER_HURTBOX_COLLISION_MASK = 0b0100;
         hurtbox.SetCollisionMask(0b0);
         hurtbox.SetCollisionLayer(PLAYER_HURTBOX_COLLISION_MASK);
-
-        // drawn_points.Clear();
-        // drawing_line.ClearPoints();
 
     }
 
@@ -129,6 +137,13 @@ public partial class Player : CharacterBody2D
 
         if (health.CurrHealth <= 0) HandleDeath();
         if (TempStats.num_enemies_killed >= 2) HandleWin();
+
+        UpdateSprites();
+
+    }
+
+    private void UpdateSprites()
+    {
 
     }
 
@@ -311,7 +326,7 @@ public partial class Player : CharacterBody2D
         {
             if (Geometry2D.IsPointInPolygon(enemy.GlobalPosition, drawn_points.GetRange(start, end - start).ToArray()))
             {
-                (enemy as Enemy.Enemy)?.Kill();
+                (enemy as Enemy)?.Kill();
             }
         }
     }

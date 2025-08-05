@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-using Gmtk.Utils;
+using Bookworm.Utils;
 
-namespace Gmtk.Weapon;
+namespace Bookworm.Weapon;
 
 public partial class Gun : Node2D
 {

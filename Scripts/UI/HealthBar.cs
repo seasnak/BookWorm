@@ -1,13 +1,13 @@
 using Godot;
 using System;
 
-using Gmtk.Player;
+using Bookworm.Entity;
 
-namespace Gmtk.UI;
+namespace Bookworm.UI;
 public partial class HealthBar : TextureProgressBar
 {
 
-    [Export] private Player.Player player;
+    [Export] private Player player;
 
     [Export] private Godot.Vector2 HEALTHBAR_SCALE = new(1, 1);
     [Export] private Godot.Vector2 HEALTHBAR_POSITION = new(10, 10);
@@ -18,7 +18,7 @@ public partial class HealthBar : TextureProgressBar
     {
         if (player == null)
         {
-            player = GetNode<Player.Player>("/root/World/Player");
+            player = GetNode<Player>("/root/World/Player");
         }
 
         this.Position = HEALTHBAR_POSITION;

@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-using Gmtk.Player;
+using Bookworm.Entity;
 
-namespace Gmtk.Camera;
+namespace Bookworm.Camera;
 public partial class CameraController : Camera2D
 {
 

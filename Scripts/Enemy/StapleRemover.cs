@@ -1,20 +1,19 @@
 using Godot;
 using System;
 
-using Gmtk.Player;
 
-namespace Gmtk.Enemy;
+namespace Bookworm.Entity;
 public partial class StapleRemover : Enemy
 {
 
-    private Player.Player player;
+    private Player player;
 
     public override void _Ready()
     {
         base._Ready();
         this.enemy_name = "Staple Remover";
 
-        player = GetNode<Player.Player>("/root/World/Player");
+        player = GetNode<Player>("/root/World/Player");
     }
 
     public override void _Process(double delta)

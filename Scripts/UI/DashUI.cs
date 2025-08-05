@@ -1,18 +1,18 @@
 using Godot;
 using System;
 
-using Gmtk.Player;
+using Bookworm.Entity;
 
-namespace Gmtk.UI;
+namespace Bookworm.UI;
 public partial class DashUI : TextureRect
 {
-    [Export] private Player.Player player;
+    [Export] private Player player;
     [Export] private Texture2D dash_available_texture;
     [Export] private Texture2D dash_on_cooldown_texture;
 
     public override void _Ready()
     {
-        player = GetNode<Player.Player>("/root/World/Player");
+        player = GetNode<Player>("/root/World/Player");
         player.CanDash += OnCanDashChanged;
 
         this.Texture = dash_available_texture;

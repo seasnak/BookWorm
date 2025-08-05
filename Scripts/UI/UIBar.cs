@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace Gmtk.UI;
+namespace Bookworm.UI;
 public partial class UIBar : TextureProgressBar
 {
 

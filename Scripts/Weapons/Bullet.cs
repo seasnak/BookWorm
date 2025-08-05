@@ -1,10 +1,10 @@
 using Godot;
 using System;
 
-using Gmtk.Components;
-using Gmtk.Utils;
+using Bookworm.Components;
+using Bookworm.Entity;
 
-namespace Gmtk.Weapon;
+namespace Bookworm.Weapon;
 public partial class Bullet : Node2D
 {
     [Export] protected int speed = 100;
@@ -125,8 +125,8 @@ public partial class Bullet : Node2D
         if (body == null) return;
 
         string group = source_group == Utils.Utils.EntityGroups.PLAYER ? "PLAYER" : "ENEMY";
-        if (group == "ENEMY" && body.Owner is Enemy.Enemy) return;
-        else if (group == "PLAYER" && body.Owner is Player.Player) return;
+        if (group == "ENEMY" && body.Owner is Enemy) return;
+        else if (group == "PLAYER" && body.Owner is Player) return;
 
         //TODO: Play Animation
         QueueFree();

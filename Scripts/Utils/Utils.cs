@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace Gmtk.Utils;
+namespace Bookworm.Utils;
 public static class Utils
 {
     public enum EntityGroups { ENEMY, PLAYER };

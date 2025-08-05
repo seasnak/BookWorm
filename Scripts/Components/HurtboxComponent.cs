@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace Gmtk.Components;
+namespace Bookworm.Components;
 public partial class HurtboxComponent : Area2D
 {
     [Signal] public delegate void HurtboxHitEventHandler();

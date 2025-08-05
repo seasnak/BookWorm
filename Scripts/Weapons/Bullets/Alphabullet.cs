@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace Gmtk.Weapon;
+namespace Bookworm.Weapon;
 public partial class Alphabullet : Bullet
 {
     public override void _Ready()
