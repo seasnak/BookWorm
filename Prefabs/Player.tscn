@@ -36,7 +36,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_lhekp")
 }],
 "loop": false,
-"name": &"down",
+"name": &"Down",
 "speed": 5.0
 }, {
 "frames": [{
@@ -44,7 +44,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_t8lmw")
 }],
 "loop": true,
-"name": &"left",
+"name": &"Left",
 "speed": 5.0
 }, {
 "frames": [{
@@ -52,7 +52,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_wuv02")
 }],
 "loop": true,
-"name": &"right",
+"name": &"Right",
 "speed": 5.0
 }, {
 "frames": [{
@@ -60,7 +60,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_k2qb3")
 }],
 "loop": true,
-"name": &"up",
+"name": &"Up",
 "speed": 5.0
 }]
 
@@ -84,7 +84,7 @@ metadata/_edit_group_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_javds")
 sprite_frames = SubResource("SpriteFrames_ggkdx")
-animation = &"down"
+animation = &"Up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)

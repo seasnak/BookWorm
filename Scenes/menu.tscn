@@ -11,7 +11,7 @@ offset_left = -386.0
 offset_top = 217.0
 offset_right = -179.0
 offset_bottom = 289.0
-text = "START GAME"
+text = "Start Game"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

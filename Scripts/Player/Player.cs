@@ -55,19 +55,11 @@ public partial class Player : CharacterBody2D
     private bool checked_loop_for_enemies = false;
 
     // Sprite Related Variables
-    private Vector2 input_direction = new(0, 0);
-    private PlayerAction current_action;
+    private PlayerUtils.PlayerState current_action;
+    private Vector2 movement_input;
 
     // Signals
     [Signal] public delegate void CanDashEventHandler(bool can_dash);
-
-    private enum PlayerAction
-    {
-        WALKING,
-        DASHING,
-        DRAWING,
-        ATTACKING,
-    }
 
     public override void _Ready()
     {
@@ -144,6 +136,29 @@ public partial class Player : CharacterBody2D
 
     private void UpdateSprites()
     {
+        // if (current_action == PlayerUtils.PlayerState.DRAWING)
+        // {
+        //     return;
+        // }
+
+        if (Velocity.X == 0 && Velocity.Y == 0) return;
+        else if (Velocity.X > 0)
+        {
+            sprite.Play("Right");
+        }
+        else if (Velocity.X < 0)
+        {
+            sprite.Play("Left");
+        }
+        else if (Velocity.Y > 0)
+        {
+            sprite.Play("Down");
+        }
+        else if (Velocity.Y < 0)
+        {
+            sprite.Play("Up");
+        }
+
 
     }
 
@@ -196,7 +211,7 @@ public partial class Player : CharacterBody2D
     {
         UpdateEnergy();
 
-        Vector2 movement_input = new(Input.GetAxis("Left", "Right"), Input.GetAxis("Up", "Down"));
+        movement_input = new(Input.GetAxis("Left", "Right"), Input.GetAxis("Up", "Down"));
 
         HandleMovement(movement_input);
         HandleDrawing(movement_input);
@@ -229,7 +244,6 @@ public partial class Player : CharacterBody2D
         else
         {
             velocity = movespeed * movement_input;
-            if (movement_input.X != 0) sprite.FlipH = movement_input.X < 0;
         }
         Velocity = velocity;
     }
