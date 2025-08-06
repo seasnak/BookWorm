@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ujpi0otr0il1" path="res://Prefabs/Components/HitboxComponent.tscn" id="6_eqqo5"]
 [ext_resource type="PackedScene" uid="uid://cst4slcygoxrr" path="res://Prefabs/Components/HurtboxComponent.tscn" id="7_0h5x0"]
 [ext_resource type="Shape2D" uid="uid://hacdvucrj1mq" path="res://Shapes/stapleremover_shape.tres" id="8_qrqv5"]
-[ext_resource type="PackedScene" uid="uid://bdr3a68srsvuu" path="res://Prefabs/Bullets/gun.tscn" id="9_0pbcv"]
+[ext_resource type="PackedScene" uid="uid://bdr3a68srsvuu" path="res://Prefabs/Guns/gun.tscn" id="9_0pbcv"]
 [ext_resource type="PackedScene" uid="uid://bgak7bp8nwgxj" path="res://Prefabs/Bullets/staple.tscn" id="10_kicx3"]
 [ext_resource type="Texture2D" uid="uid://jqs2en5ivgum" path="res://Sprites/UI/simple_healthbar.png" id="12_ano46"]
 
@@ -188,7 +188,6 @@ mag_size = 9999
 bullet = ExtResource("10_kicx3")
 time_between_shots = 1000
 normal_reload_time = 0
-damage_source = 0
 
 [node name="HealthBar" type="TextureProgressBar" parent="."]
 offset_left = -10.0

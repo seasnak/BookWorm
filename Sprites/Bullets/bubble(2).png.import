@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbbpoq31wjpn8"
-path="res://.godot/imported/staple remover.png-875e418e80a63fd8f8a7431d2454b90f.ctex"
+uid="uid://tyco0ugnl5q5"
+path="res://.godot/imported/bubble(2).png-359017e1e375f428dbad024fb7155b03.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/RawImages/staple remover.png"
-dest_files=["res://.godot/imported/staple remover.png-875e418e80a63fd8f8a7431d2454b90f.ctex"]
+source_file="res://Sprites/Bullets/bubble(2).png"
+dest_files=["res://.godot/imported/bubble(2).png-359017e1e375f428dbad024fb7155b03.ctex"]
 
 [params]
 

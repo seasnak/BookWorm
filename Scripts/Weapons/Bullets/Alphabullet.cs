@@ -8,10 +8,11 @@ public partial class Alphabullet : Bullet
     {
         base._Ready();
 
-
-
         Random random = new();
-        sprite.Frame = random.Next(0, sprite.Hframes);
+        int selected_letter = random.Next(0, sprite.SpriteFrames.GetFrameCount("default"));
+        sprite.Stop();
+        sprite.Frame = selected_letter;
+        hitbox.Damage = (selected_letter + 1);
     }
 
     public override void _Process(double delta)

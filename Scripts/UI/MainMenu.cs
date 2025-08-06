@@ -22,7 +22,6 @@ public partial class MainMenu : Node
 
     public void OnButtonUp()
     {
-        TempStats.num_enemies_killed = 0;
         GetTree().ChangeSceneToFile("res://Scenes/testscene.tscn");
     }
 }

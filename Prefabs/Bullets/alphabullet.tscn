@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c02hwila7n6kv"]
+[gd_scene load_steps=12 format=3 uid="uid://c02hwila7n6kv"]
 
 [ext_resource type="Script" uid="uid://dki1wctaus0tf" path="res://Scripts/Weapons/Bullets/Alphabullet.cs" id="1_4rd1a"]
 [ext_resource type="PackedScene" uid="uid://ujpi0otr0il1" path="res://Prefabs/Components/HitboxComponent.tscn" id="1_lerda"]
@@ -7,17 +7,55 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bxm2j"]
 resource_local_to_scene = true
-render_priority = 0
 shader = ExtResource("3_4rd1a")
-shader_parameter/wave_amplitude = 0.1
-shader_parameter/wave_frequency = 10.0
-shader_parameter/wave_speed = 1.0
-shader_parameter/vertical_wobble = true
+shader_parameter/wobble_amount = 30
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4rd1a"]
+atlas = ExtResource("2_n6ptd")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxm2j"]
+atlas = ExtResource("2_n6ptd")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7q7me"]
+atlas = ExtResource("2_n6ptd")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oej5w"]
+atlas = ExtResource("2_n6ptd")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_huhlb"]
+atlas = ExtResource("2_n6ptd")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n6ptd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4rd1a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxm2j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7q7me")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oej5w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_huhlb")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Alphabullet" type="Node2D"]
 script = ExtResource("1_4rd1a")
 speed = 500
-damage = 20
 
 [node name="HitboxComponent" parent="." instance=ExtResource("1_lerda")]
 radius = 4.0
@@ -25,10 +63,9 @@ radius = 4.0
 [node name="CollisionShape2D" parent="HitboxComponent" index="0"]
 position = Vector2(-0.5, 0)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_bxm2j")
 position = Vector2(0, -2)
-texture = ExtResource("2_n6ptd")
-hframes = 5
+sprite_frames = SubResource("SpriteFrames_n6ptd")
 
 [editable path="HitboxComponent"]

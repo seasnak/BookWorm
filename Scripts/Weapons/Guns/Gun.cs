@@ -11,9 +11,9 @@ public partial class Gun : Node2D
     [Signal] public delegate void GunShotEventHandler(int num_bullets_used);
     [Signal] public delegate void GunReloadedEventHandler();
 
-    [Export] private string name = "Gun";
-    [Export] private int mag_size = 10;
-    [Export] private PackedScene bullet;
+    [Export] protected string name = "Gun";
+    [Export] protected int mag_size = 10;
+    [Export] protected PackedScene bullet;
     private int curr_bullets;
 
     public int MagSize { get => mag_size; }
@@ -24,7 +24,10 @@ public partial class Gun : Node2D
     [Export] private int fast_reload_time;
     [Export] private int normal_reload_time = 1200;
     [Export] private int fast_reload_leniency;
-    [Export] private Utils.Utils.EntityGroups damage_source = Utils.Utils.EntityGroups.PLAYER;
+    [Export] private float bullet_spread = 0f;
+    [Export] private EntityUtils.EntityGroup damage_source = EntityUtils.EntityGroup.PLAYER;
+
+    public EntityUtils.EntityGroup DamageSource { get => damage_source; set => damage_source = value; }
 
     // Timers
     private ulong bullet_shot_starttime;
@@ -55,14 +58,20 @@ public partial class Gun : Node2D
             reload_starttime = Time.GetTicksMsec();
         }
 
-        if (Utils.Utils.CheckTimerComplete(reload_starttime, normal_reload_time))
+        if (GameUtils.CheckTimerComplete(reload_starttime, normal_reload_time))
         {
             is_reloading = false;
             curr_bullets = mag_size;
         }
     }
 
-    protected void HandleShoot(Vector2 target_position)
+    protected virtual void HandleShoot(Vector2 target_position)
+    {
+        ShootBullet(target_position);
+        curr_bullets -= 1;
+    }
+
+    protected virtual void ShootBullet(Vector2 target_position)
     {
         bullet_shot_starttime = Time.GetTicksMsec();
         Bullet bullet_instance = bullet.Instantiate() as Bullet;
@@ -71,7 +80,6 @@ public partial class Gun : Node2D
         bullet_instance.SourceGroup = damage_source;
         bullet_instance.SetCollision(damage_source);
         bullet_instance.TargetDirection = -(this.GlobalPosition - target_position).Normalized();
-        curr_bullets -= 1;
     }
 
     public void ShootGun(Vector2 target_position)
@@ -82,7 +90,7 @@ public partial class Gun : Node2D
             return;
         }
 
-        if (Utils.Utils.CheckTimerComplete(bullet_shot_starttime, time_between_shots))
+        if (GameUtils.CheckTimerComplete(bullet_shot_starttime, time_between_shots))
         {
             HandleShoot(target_position);
         }

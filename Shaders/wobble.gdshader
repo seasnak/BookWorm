@@ -1,24 +1,12 @@
-shader_type spatial;
+shader_type canvas_item;
 
-uniform sampler2D tex : source_color, hint_default_white;
-uniform float wave_amplitude : hint_range(0.0, 1.0) = 0.1;
-uniform float wave_frequency : hint_range(0.0, 20.0) = 10.0;
-uniform float wave_speed : hint_range(0.0, 10.0) = 1.0;
-uniform bool vertical_wobble = false;
+uniform int wobble_amount = 30;
 
-void fragment() {
-    vec2 uv = UV;
-    float wave = sin((vertical_wobble ? uv.x : uv.y) * wave_frequency + TIME * wave_speed) * wave_amplitude;
+void fragment()
+{
+}
 
-    if (vertical_wobble) {
-        uv.y += wave;
-    } else {
-        uv.x += wave;
-    }
+void vertex()
+{
 
-    // Clamp the UVs to prevent texture wrapping
-    uv = clamp(uv, vec2(0.0), vec2(1.0));
-    vec4 tex_color = texture(tex, uv);
-    ALBEDO = tex_color.rgb;
-    ALPHA = tex_color.a;
 }

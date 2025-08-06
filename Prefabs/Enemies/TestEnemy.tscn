@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ca1yntao5twoo" path="res://Prefabs/Components/HealthComponent.tscn" id="3_13jeh"]
 [ext_resource type="Texture2D" uid="uid://dpuice5s40gxt" path="res://Sprites/CartoonEnemy/staple remover.png" id="3_57uj0"]
 [ext_resource type="PackedScene" uid="uid://cst4slcygoxrr" path="res://Prefabs/Components/HurtboxComponent.tscn" id="3_egr5t"]
-[ext_resource type="PackedScene" uid="uid://bdr3a68srsvuu" path="res://Prefabs/Bullets/gun.tscn" id="8_13jeh"]
+[ext_resource type="PackedScene" uid="uid://bdr3a68srsvuu" path="res://Prefabs/Guns/gun.tscn" id="8_13jeh"]
 [ext_resource type="PackedScene" uid="uid://bgak7bp8nwgxj" path="res://Prefabs/Bullets/staple.tscn" id="9_57uj0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rpo0x"]

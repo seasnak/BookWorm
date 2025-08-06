@@ -1,10 +1,9 @@
 using Godot;
-using System;
 
 namespace Bookworm.Utils;
-public static class Utils
+
+public partial class GameUtils : Node
 {
-    public enum EntityGroups { ENEMY, PLAYER };
 
     public static bool CheckTimerComplete(float timer_start_time, int duration)
     {
@@ -14,4 +13,5 @@ public static class Utils
         }
         return false;
     }
+
 }

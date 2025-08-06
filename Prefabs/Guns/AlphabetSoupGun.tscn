@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8uiacyupve3n"]
+
+[ext_resource type="Script" uid="uid://c1lt053sa4pym" path="res://Scripts/Weapons/Guns/Gun.cs" id="1_umkgu"]
+[ext_resource type="PackedScene" uid="uid://c02hwila7n6kv" path="res://Prefabs/Bullets/alphabullet.tscn" id="2_1e8rt"]
+
+[node name="AlphabetSoupGun" type="Node2D"]
+script = ExtResource("1_umkgu")
+name = "Alphabet Soup Gun"
+mag_size = 20
+bullet = ExtResource("2_1e8rt")
+time_between_shots = 100

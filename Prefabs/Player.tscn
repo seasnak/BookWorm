@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cyij5xapg7pn6"]
+[gd_scene load_steps=17 format=3 uid="uid://cyij5xapg7pn6"]
 
 [ext_resource type="Script" uid="uid://3i0l5pvvfor1" path="res://Scripts/Player/Player.cs" id="1_vxq8l"]
 [ext_resource type="PackedScene" uid="uid://cst4slcygoxrr" path="res://Prefabs/Components/HurtboxComponent.tscn" id="2_gg3t4"]
@@ -6,8 +6,7 @@
 [ext_resource type="Shader" uid="uid://bxcaq6yegpeeq" path="res://Shaders/hitflash.gdshader" id="3_gg3t4"]
 [ext_resource type="PackedScene" uid="uid://ca1yntao5twoo" path="res://Prefabs/Components/HealthComponent.tscn" id="5_gg3t4"]
 [ext_resource type="PackedScene" uid="uid://b1u8qakuf7jk5" path="res://Prefabs/Components/EnergyComponent.tscn" id="6_javds"]
-[ext_resource type="Script" uid="uid://c1lt053sa4pym" path="res://Scripts/Weapons/Guns/Gun.cs" id="7_javds"]
-[ext_resource type="PackedScene" uid="uid://c02hwila7n6kv" path="res://Prefabs/Bullets/alphabullet.tscn" id="8_3ygst"]
+[ext_resource type="PackedScene" uid="uid://c8uiacyupve3n" path="res://Prefabs/Guns/AlphabetSoupGun.tscn" id="7_javds"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_javds"]
 shader = ExtResource("3_gg3t4")
@@ -94,8 +93,8 @@ shape = SubResource("RectangleShape2D_vy56e")
 scale = Vector2(0.8, 0.8)
 
 [node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
-position = Vector2(-2.98023e-07, -4.375)
-scale = Vector2(0.999999, 0.999999)
+position = Vector2(-0.625, -1.25)
+scale = Vector2(0.999998, 0.999998)
 
 [node name="HealthComponent" parent="." instance=ExtResource("5_gg3t4")]
 
@@ -106,11 +105,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_javds")
 }
 
-[node name="AlphabetSoupGun" type="Node2D" parent="."]
-script = ExtResource("7_javds")
-name = "Alphabet Soup Gun"
-mag_size = 20
-bullet = ExtResource("8_3ygst")
-time_between_shots = 100
+[node name="AlphabetSoupGun" parent="." instance=ExtResource("7_javds")]
 
 [editable path="HurtboxComponent"]

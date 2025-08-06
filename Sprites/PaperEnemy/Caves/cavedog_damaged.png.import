@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbbpoq31wjpn8"
-path="res://.godot/imported/staple remover.png-875e418e80a63fd8f8a7431d2454b90f.ctex"
+uid="uid://2ossy6pgwd8n"
+path="res://.godot/imported/cavedog_damaged.png-2b52bcd936328388a728bf3eeff42d2d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/RawImages/staple remover.png"
-dest_files=["res://.godot/imported/staple remover.png-875e418e80a63fd8f8a7431d2454b90f.ctex"]
+source_file="res://Sprites/PaperEnemy/Caves/cavedog_damaged.png"
+dest_files=["res://.godot/imported/cavedog_damaged.png-2b52bcd936328388a728bf3eeff42d2d.ctex"]
 
 [params]
 

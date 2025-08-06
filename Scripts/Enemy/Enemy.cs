@@ -3,7 +3,7 @@ using Godot;
 
 using Bookworm.Components;
 using Bookworm.Weapon;
-using Bookworm.Autoload;
+using Bookworm.Utils;
 
 namespace Bookworm.Entity;
 public partial class Enemy : CharacterBody2D
@@ -25,6 +25,7 @@ public partial class Enemy : CharacterBody2D
     private ulong death_animation_starttime = 0;
 
     private bool is_dead = false;
+    private bool is_damaged = false;
     private bool death_animation_playing = false;
 
     public override void _Ready()
@@ -55,6 +56,7 @@ public partial class Enemy : CharacterBody2D
         {
             gun = GetNode<Gun>("Gun");
         }
+        gun.DamageSource = EntityUtils.EntityGroup.ENEMY;
 
         if (health == null)
         {
@@ -64,7 +66,7 @@ public partial class Enemy : CharacterBody2D
 
         if (healthbar == null)
         {
-            healthbar = GetNode<TextureProgressBar>("HealthBar");
+            healthbar = GetNode<TextureProgressBar>("EntityLocalUI/HealthBar");
         }
 
 
@@ -77,6 +79,7 @@ public partial class Enemy : CharacterBody2D
         hurtbox.SetCollisionLayer(ENEMY_HURTBOX_COLLISION_LAYER);
 
         hurtbox.HurtboxHit += OnEnemyHit;
+        health.HealthChanged += OnHealthChanged;
 
         (sprite.Material as ShaderMaterial).SetShaderParameter("is_active", false);
 
@@ -87,29 +90,10 @@ public partial class Enemy : CharacterBody2D
     public override void _Process(double delta)
     {
         if (is_dead) HandleDeath();
-        healthbar.Value = health.CurrHealth;
-        healthbar.MaxValue = health.MaxHealth;
-
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (time_since_last_shot + delta > fire_rate)
-        {
-            if (GetParent().GetNodeOrNull("Player") != null)
-            {
-                gun.ShootGun(GetNode<Player>("/root/World/Player").Position);
-            }
-            else
-            {
-                GD.Print("Could not shoot at player, does not exist");
-            }
-            time_since_last_shot = -(Double)GD.Randf();
-        }
-        else
-        {
-            time_since_last_shot += delta;
-        }
     }
 
     private void HandleDeath()
@@ -117,8 +101,7 @@ public partial class Enemy : CharacterBody2D
         hitbox.SetActive(false);
         hurtbox.SetActive(false);
         this.CollisionLayer = 0;
-        this.CollisionLayer = 0;
-        TempStats.num_enemies_killed += 1;
+        this.CollisionMask = 0;
 
         if (!death_animation_playing)
         {
@@ -127,8 +110,14 @@ public partial class Enemy : CharacterBody2D
             death_animation_starttime = Time.GetTicksMsec();
         }
 
-        int DEATH_ANIMATION_DURATION = 200;
-        if (Utils.Utils.CheckTimerComplete(death_animation_starttime, DEATH_ANIMATION_DURATION)) QueueFree();
+        int DEATH_ANIMATION_DURATION = 2000;
+        if (GameUtils.CheckTimerComplete(death_animation_starttime, DEATH_ANIMATION_DURATION)) QueueFree();
+    }
+
+    private void UpdateHealthbar()
+    {
+        healthbar.Value = health.CurrHealth;
+        healthbar.MaxValue = health.MaxHealth;
     }
 
     public void Kill()
@@ -141,5 +130,21 @@ public partial class Enemy : CharacterBody2D
         AnimationPlayer hitflash_anim = GetNode<AnimationPlayer>("HitflashAnimationPlayer");
         hitflash_anim.CurrentAnimation = "hitflash";
         hitflash_anim.Play();
+    }
+
+    private void OnHealthChanged(int new_value)
+    {
+        GD.Print($"new health: {new_value}");
+        if (health.CurrHealth <= 0)
+        {
+            is_damaged = true;
+            sprite.Stop();
+            int curr_frame = sprite.Frame;
+            sprite.Play("damaged");
+            sprite.Stop();
+            sprite.Frame = curr_frame;
+        }
+
+        UpdateHealthbar();
     }
 }

@@ -1,20 +1,20 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
 using Bookworm.Components;
 using Bookworm.Weapon;
 using Bookworm.Autoload;
+using Bookworm.Utils;
 
 namespace Bookworm.Entity;
 public partial class Player : CharacterBody2D
 {
     // Stats
     private int current_movespeed;
-    private int movespeed = 75;
-    private int movespeed_while_attacking = 65;
-    private int movespeed_while_drawing = 125;
-    private int dashspeed = 250;
+    private int movespeed = 100;
+    private int movespeed_while_attacking = 75;
+    private int movespeed_while_drawing = 200;
+    private int dashspeed = 300;
 
     public int Movespeed { get => movespeed; set => movespeed = value; }
     public int Dashspeed { get => dashspeed; set => dashspeed = value; }
@@ -29,6 +29,9 @@ public partial class Player : CharacterBody2D
     private int draw_duration;
 
     private int invuln_duration = 100;
+
+    private int time_between_points = 100;
+    private ulong last_point_added_time;
 
     public int DashDuration { get => dash_duration; set => dash_duration = value; }
     public int DrawDuration { get => draw_duration; set => draw_duration = value; }
@@ -160,7 +163,6 @@ public partial class Player : CharacterBody2D
     {
         if (GameSettings.CurrentInputMode == GameSettings.InputMode.KEYBOARD)
         {
-            GD.Print("Here");
             targeter_location = GetGlobalMousePosition();
         }
         else
@@ -234,8 +236,12 @@ public partial class Player : CharacterBody2D
     {
         if (is_dashing)
         {
-            // Velocity = Vector2.Zero;
+            this.hurtbox.SetActive(false);
             return;
+        }
+        else
+        {
+            this.hurtbox.SetActive(true);
         }
 
         Vector2 velocity = Velocity;
@@ -248,6 +254,7 @@ public partial class Player : CharacterBody2D
         }
         else if (is_attacking)
         {
+            velocity = movespeed_while_attacking * movement_input;
         }
         else if (is_drawing)
         {
@@ -270,6 +277,16 @@ public partial class Player : CharacterBody2D
 
     private void HandleDrawing(Vector2 movement_input)
     {
+        if (is_drawing)
+        {
+            Engine.TimeScale = 0.5;
+            // Velocity *= 2;
+        }
+        else
+        {
+            Engine.TimeScale = 1;
+        }
+
         if (!is_drawing && Input.IsActionJustPressed("Draw") && energy.CurrEnergy > 0)
         {
             GD.Print("Player pressed \"Draw\"");

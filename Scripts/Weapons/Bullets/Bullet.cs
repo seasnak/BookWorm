@@ -3,6 +3,7 @@ using System;
 
 using Bookworm.Components;
 using Bookworm.Entity;
+using Bookworm.Utils;
 
 namespace Bookworm.Weapon;
 public partial class Bullet : Node2D
@@ -22,14 +23,15 @@ public partial class Bullet : Node2D
     protected Vector2 target_direction;
     public Vector2 TargetDirection { get => target_direction; set => target_direction = value; }
 
-    protected Utils.Utils.EntityGroups source_group;
-    public Utils.Utils.EntityGroups SourceGroup { get => source_group; set => source_group = value; }
+    protected EntityUtils.EntityGroup source_group;
+    public EntityUtils.EntityGroup SourceGroup { get => source_group; set => source_group = value; }
 
     // Timers
     private ulong bullet_start_time = 0;
+    private ulong bullet_destroy_time = 0;
 
     // Components
-    [Export] protected Sprite2D sprite;
+    [Export] protected AnimatedSprite2D sprite;
     [Export] protected HitboxComponent hitbox;
 
     public override void _Ready()
@@ -49,7 +51,7 @@ public partial class Bullet : Node2D
 
         if (sprite == null)
         {
-            sprite = GetNode<Sprite2D>("Sprite2D");
+            sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         }
         // Random rand = new();
         // sprite.Frame = rand.Next(0, sprite.Hframes);
@@ -57,7 +59,7 @@ public partial class Bullet : Node2D
         uint PLAYER_HURTBOX_LAYER = 0b0100;
         uint ENEMY_HURTBOX_LAYER = 0b1000;
 
-        if (source_group == Utils.Utils.EntityGroups.ENEMY)
+        if (source_group == EntityUtils.EntityGroup.ENEMY)
         {
             // hitbox.CollisionLayer = PLAYER_HURTBOX_LAYER;
             hitbox.SetCollisionLayer(PLAYER_HURTBOX_LAYER);
@@ -80,13 +82,29 @@ public partial class Bullet : Node2D
 
     public override void _Process(double delta)
     {
-        if (Utils.Utils.CheckTimerComplete(bullet_start_time, lifespan)) QueueFree();
+        if (GameUtils.CheckTimerComplete(bullet_start_time, lifespan))
+        {
+            HandleDestroy();
+        }
     }
 
     public override void _PhysicsProcess(double delta)
     {
         HandleMove(delta);
         HandleRotate(delta);
+    }
+
+    private void HandleDestroy()
+    {
+        hitbox.SetActive(false);
+        hitbox.CollisionLayer = 0b0;
+        hitbox.CollisionMask = 0b0;
+
+        if (!destroy_animation_playing)
+        {
+
+        }
+
     }
 
     public void SetCollision(uint collision_layer, uint collision_mask = 0b0)
@@ -96,13 +114,12 @@ public partial class Bullet : Node2D
 
     }
 
-    public void SetCollision(Utils.Utils.EntityGroups entity_group)
+    public void SetCollision(EntityUtils.EntityGroup entity_group)
     {
         uint PLAYER_HURTBOX_LAYER = 0b0100;
         uint ENEMY_HURTBOX_LAYER = 0b1000;
 
-        // hitbox.CollisionLayer = entity_group == Utils.Utils.EntityGroups.PLAYER ? ENEMY_HURTBOX_LAYER : PLAYER_HURTBOX_LAYER;
-        if (entity_group == Utils.Utils.EntityGroups.PLAYER) hitbox.SetCollisionMask(ENEMY_HURTBOX_LAYER);
+        if (entity_group == EntityUtils.EntityGroup.PLAYER) hitbox.SetCollisionMask(ENEMY_HURTBOX_LAYER);
         else hitbox.SetCollisionMask(PLAYER_HURTBOX_LAYER);
         // hitbox.CollisionMask = 0b0;
         hitbox.SetCollisionLayer(0b0);
@@ -124,9 +141,8 @@ public partial class Bullet : Node2D
         if (body is not HurtboxComponent) return;
         if (body == null) return;
 
-        string group = source_group == Utils.Utils.EntityGroups.PLAYER ? "PLAYER" : "ENEMY";
-        if (group == "ENEMY" && body.Owner is Enemy) return;
-        else if (group == "PLAYER" && body.Owner is Player) return;
+        if (source_group == EntityUtils.EntityGroup.ENEMY && body.Owner is Enemy) return;
+        else if (source_group == EntityUtils.EntityGroup.PLAYER && body.Owner is Player) return;
 
         //TODO: Play Animation
         QueueFree();

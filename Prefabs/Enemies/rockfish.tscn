@@ -1,0 +1,234 @@
+[gd_scene load_steps=32 format=3 uid="uid://b2sx1qg3g2usg"]
+
+[ext_resource type="Script" uid="uid://bn2idrnymsmsu" path="res://Scripts/Enemy/Rockfish.cs" id="1_n42nn"]
+[ext_resource type="Shader" uid="uid://bxcaq6yegpeeq" path="res://Shaders/hitflash.gdshader" id="2_5lgwu"]
+[ext_resource type="PackedScene" uid="uid://ujpi0otr0il1" path="res://Prefabs/Components/HitboxComponent.tscn" id="2_nm28r"]
+[ext_resource type="PackedScene" uid="uid://cst4slcygoxrr" path="res://Prefabs/Components/HurtboxComponent.tscn" id="3_p0lvs"]
+[ext_resource type="Texture2D" uid="uid://davspf00alrig" path="res://Sprites/PaperEnemy/Caves/rockfish_damaged.png" id="3_pym3d"]
+[ext_resource type="Texture2D" uid="uid://dkkwr3kfnl5rn" path="res://Sprites/Effects/death_anim-sheet.png" id="3_wfqv6"]
+[ext_resource type="Texture2D" uid="uid://cqohfkoycin6g" path="res://Sprites/PaperEnemy/Caves/rockfish.png" id="4_elqda"]
+[ext_resource type="PackedScene" uid="uid://b0xt3vdoggryd" path="res://Prefabs/Guns/bubble_gun.tscn" id="5_nm28r"]
+[ext_resource type="PackedScene" uid="uid://dg1imwmpapkcq" path="res://Prefabs/Bullets/bubble.tscn" id="6_nm28r"]
+[ext_resource type="Script" uid="uid://f1q4r1rwehby" path="res://Scripts/Weapons/Guns/BubbleGun.cs" id="7_5lgwu"]
+[ext_resource type="PackedScene" uid="uid://ca1yntao5twoo" path="res://Prefabs/Components/HealthComponent.tscn" id="7_elqda"]
+[ext_resource type="PackedScene" uid="uid://b1u8qakuf7jk5" path="res://Prefabs/Components/EnergyComponent.tscn" id="8_4djeo"]
+[ext_resource type="Texture2D" uid="uid://cki0dgqwocuyr" path="res://Sprites/UI/healthbar.png" id="12_4c3vc"]
+[ext_resource type="Texture2D" uid="uid://ejt1jdwywvu8" path="res://Sprites/UI/Status/sleeping.png" id="13_4c3vc"]
+[ext_resource type="Texture2D" uid="uid://d0h6a23ogbros" path="res://Sprites/UI/Status/tombstone.png" id="14_p6ky8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4evom"]
+resource_local_to_scene = true
+shader = ExtResource("2_5lgwu")
+shader_parameter/active = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pym3d"]
+atlas = ExtResource("3_wfqv6")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mott"]
+atlas = ExtResource("3_wfqv6")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3d826"]
+atlas = ExtResource("3_wfqv6")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pgq7"]
+atlas = ExtResource("3_wfqv6")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxbim"]
+atlas = ExtResource("3_wfqv6")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_usnd8"]
+atlas = ExtResource("3_wfqv6")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdycc"]
+atlas = ExtResource("3_wfqv6")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7ms41"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_pym3d")
+}],
+"loop": true,
+"name": &"damaged",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pym3d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mott")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3d826")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pgq7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxbim")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_usnd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdycc")
+}],
+"loop": false,
+"name": &"death",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_elqda")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_nm28r"]
+points = PackedVector2Array(-4, -6, 6, -6, 9, 9, 1, 11, -10, 9)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_p0lvs"]
+points = PackedVector2Array(-4, -7, 8, -7, 12, 10, 2, 12, -11, 10)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_n42nn"]
+points = PackedVector2Array(-3, -6.5, 7, -6.5, 10, 8.5, 2, 10.5, -9, 8.5)
+
+[sub_resource type="Animation" id="Animation_rpo0x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_xmor1"]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_yf3q6"]
+resource_name = "hitflash"
+length = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rpo0x"]
+_data = {
+&"RESET": SubResource("Animation_rpo0x"),
+&"default": SubResource("Animation_xmor1"),
+&"hitflash": SubResource("Animation_yf3q6")
+}
+
+[node name="Rockfish" type="CharacterBody2D" node_paths=PackedStringArray("gun")]
+script = ExtResource("1_n42nn")
+gun = NodePath("BubbleGun")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_4evom")
+sprite_frames = SubResource("SpriteFrames_7ms41")
+
+[node name="HitboxComponent" parent="." instance=ExtResource("2_nm28r")]
+
+[node name="CollisionShape2D" parent="HitboxComponent" index="0"]
+shape = SubResource("ConvexPolygonShape2D_nm28r")
+
+[node name="HurtboxComponent" parent="." instance=ExtResource("3_p0lvs")]
+position = Vector2(54.3531, -38.9409)
+
+[node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
+position = Vector2(-55.3531, 38.9409)
+shape = SubResource("ConvexPolygonShape2D_p0lvs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0.5)
+shape = SubResource("ConvexPolygonShape2D_n42nn")
+
+[node name="BubbleGun" parent="." instance=ExtResource("5_nm28r")]
+script = ExtResource("7_5lgwu")
+NUM_BULLETS_BURST_FIRED = 3
+BULLET_SPREAD_ANGLE = 10
+bullet = ExtResource("6_nm28r")
+time_between_shots = 5000
+
+[node name="HealthComponent" parent="." instance=ExtResource("7_elqda")]
+
+[node name="EnergyComponent" parent="." instance=ExtResource("8_4djeo")]
+
+[node name="HitflashAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_rpo0x")
+}
+
+[node name="EntityLocalUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="TextureProgressBar" parent="EntityLocalUI"]
+layout_mode = 0
+offset_left = -8.0
+offset_top = -12.0
+offset_right = 112.0
+offset_bottom = -6.0
+scale = Vector2(0.15, 0.15)
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 1
+stretch_margin_top = 1
+stretch_margin_right = 1
+stretch_margin_bottom = 1
+texture_progress = ExtResource("12_4c3vc")
+
+[node name="Sleeping" type="Sprite2D" parent="EntityLocalUI"]
+visible = false
+position = Vector2(-1.49012e-08, 17)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("13_4c3vc")
+
+[node name="Tombstone" type="Sprite2D" parent="EntityLocalUI"]
+visible = false
+position = Vector2(0, 17)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("14_p6ky8")
+
+[editable path="HitboxComponent"]
+[editable path="HurtboxComponent"]
+[editable path="BubbleGun"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://0b3udutbq8nu"]
+[gd_scene load_steps=12 format=3 uid="uid://0b3udutbq8nu"]
 
 [ext_resource type="PackedScene" uid="uid://cyij5xapg7pn6" path="res://Prefabs/Player.tscn" id="1_nes3m"]
 [ext_resource type="Script" uid="uid://xnu60ldiy4lj" path="res://Scripts/Camera/CameraController.cs" id="3_nes3m"]
@@ -9,11 +9,13 @@
 [ext_resource type="Script" uid="uid://vmtrurmi4kea" path="res://Scripts/UI/EnergyBar.cs" id="8_ni8gw"]
 [ext_resource type="Script" uid="uid://dho876dx4jqw3" path="res://Scripts/UI/DashUI.cs" id="9_3syrs"]
 [ext_resource type="Texture2D" uid="uid://dliwusxptrjkn" path="res://Sprites/UI/dash_ui_candash.png" id="10_yr35r"]
+[ext_resource type="PackedScene" uid="uid://b2sx1qg3g2usg" path="res://Prefabs/Enemies/rockfish.tscn" id="11_3syrs"]
 [ext_resource type="Texture2D" uid="uid://rd5e2aobawps" path="res://Sprites/UI/dash_ui_cantdash.png" id="11_cfqgl"]
 
 [node name="World" type="Node2D"]
 
 [node name="DrawingLine" type="Line2D" parent="."]
+points = PackedVector2Array(-4, -7)
 
 [node name="Player" parent="." instance=ExtResource("1_nes3m")]
 
@@ -58,3 +60,9 @@ dash_available_texture = ExtResource("10_yr35r")
 dash_on_cooldown_texture = ExtResource("11_cfqgl")
 
 [node name="RoomTilemap" type="TileMapLayer" parent="."]
+
+[node name="Rockfish2" parent="." instance=ExtResource("11_3syrs")]
+position = Vector2(70, 99)
+
+[node name="Rockfish" parent="." instance=ExtResource("11_3syrs")]
+position = Vector2(-49, 41)

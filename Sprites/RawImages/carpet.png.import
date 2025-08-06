@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dmthf23ho2thg"
-path="res://.godot/imported/carpet.png-e4d15bdd14ec4e0999c968b70f705b9a.ctex"
+path="res://.godot/imported/carpet.png-150a600b3faea8e1c311d0b4c18c3536.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://RawImages/carpet.png"
-dest_files=["res://.godot/imported/carpet.png-e4d15bdd14ec4e0999c968b70f705b9a.ctex"]
+source_file="res://Sprites/RawImages/carpet.png"
+dest_files=["res://.godot/imported/carpet.png-150a600b3faea8e1c311d0b4c18c3536.ctex"]
 
 [params]
 

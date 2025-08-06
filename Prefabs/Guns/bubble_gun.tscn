@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0xt3vdoggryd"]
+
+[ext_resource type="Script" uid="uid://c1lt053sa4pym" path="res://Scripts/Weapons/Guns/Gun.cs" id="1_loyd7"]
+
+[node name="BubbleGun" type="Node2D"]
+script = ExtResource("1_loyd7")
+damage_source = 0
