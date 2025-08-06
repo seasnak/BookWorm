@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://y5pqdhqigcsx"
-path="res://.godot/imported/rock.png-59a627d53f2aae1a2716c241f119233f.ctex"
+uid="uid://dj5oaoqouwc1w"
+path="res://.godot/imported/blue_rockfish.png-1a30a1f3adec85c65ae45d8bb9ec18d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/PaperEnemy/rock.png"
-dest_files=["res://.godot/imported/rock.png-59a627d53f2aae1a2716c241f119233f.ctex"]
+source_file="res://Sprites/PaperEnemy/Caves/blue_rockfish.png"
+dest_files=["res://.godot/imported/blue_rockfish.png-1a30a1f3adec85c65ae45d8bb9ec18d1.ctex"]
 
 [params]
 

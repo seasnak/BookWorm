@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crc0p43bsnan0"
-path="res://.godot/imported/bluerock.png-0a1ccf95df0a250a3d4afaeff3a08110.ctex"
+uid="uid://ca61oxnmndfms"
+path="res://.godot/imported/cavedog_walking-Sheet.png-12aa5f6d11f72d3c14da16d7859803f5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/PaperEnemy/bluerock.png"
-dest_files=["res://.godot/imported/bluerock.png-0a1ccf95df0a250a3d4afaeff3a08110.ctex"]
+source_file="res://Sprites/PaperEnemy/Caves/cavedog_walking-Sheet.png"
+dest_files=["res://.godot/imported/cavedog_walking-Sheet.png-12aa5f6d11f72d3c14da16d7859803f5.ctex"]
 
 [params]
 
