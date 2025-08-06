@@ -19,6 +19,7 @@
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("3_nes3m")
+DEFAULT_ZOOM = Vector2(3, 3)
 
 [node name="UI" type="CanvasLayer" parent="."]
 

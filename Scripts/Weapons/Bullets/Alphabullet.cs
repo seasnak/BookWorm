@@ -8,6 +8,8 @@ public partial class Alphabullet : Bullet
     {
         base._Ready();
 
+
+
         Random random = new();
         sprite.Frame = random.Next(0, sprite.Hframes);
     }

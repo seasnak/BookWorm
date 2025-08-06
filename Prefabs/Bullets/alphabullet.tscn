@@ -16,6 +16,7 @@ shader_parameter/vertical_wobble = true
 
 [node name="Alphabullet" type="Node2D"]
 script = ExtResource("1_4rd1a")
+speed = 500
 damage = 20
 
 [node name="HitboxComponent" parent="." instance=ExtResource("1_lerda")]

@@ -10,6 +10,7 @@ namespace Bookworm.Entity;
 public partial class Player : CharacterBody2D
 {
     // Stats
+    private int current_movespeed;
     private int movespeed = 75;
     private int movespeed_while_attacking = 65;
     private int movespeed_while_drawing = 125;
@@ -93,6 +94,7 @@ public partial class Player : CharacterBody2D
                 return;
             }
         }
+        drawing_line.ClearPoints();
         drawing_line.Width = 3.0f;
         drawing_line.DefaultColor = new(1f, 1f, 1f, 0.5f);
         draw_duration = energy.CurrEnergy * draw_duration_per_energy;
@@ -162,7 +164,6 @@ public partial class Player : CharacterBody2D
 
     private void HandleWin()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/winscreen.tscn");
     }
 
     private void UpdateEnergy()
@@ -220,7 +221,6 @@ public partial class Player : CharacterBody2D
 
     private void HandleDeath()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/losescreen.tscn");
     }
 
     private void HandleMovement(Vector2 movement_input)
@@ -238,6 +238,13 @@ public partial class Player : CharacterBody2D
             is_dashing = true;
             dash_starttime = Time.GetTicksMsec();
             velocity = movement_input.Normalized() * dashspeed;
+        }
+        else if (is_attacking)
+        {
+        }
+        else if (is_drawing)
+        {
+            velocity = movespeed_while_drawing * movement_input;
         }
         else
         {
