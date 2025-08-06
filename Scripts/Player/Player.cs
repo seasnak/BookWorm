@@ -48,12 +48,14 @@ public partial class Player : CharacterBody2D
     // Misc
     private List<Vector2> drawn_points = new();
     private const float LOOP_TOLERANCE_DISTANCE = 20f;
+    private Vector2 targeter_location = new();
 
     // Booleans
     private bool is_dashing = false;
-    private bool is_drawing = false;
     private bool can_dash = true;
+    private bool is_drawing = false;
     private bool checked_loop_for_enemies = false;
+    private bool is_attacking = false;
 
     // Sprite Related Variables
     private EntityUtils.PlayerState current_action;
@@ -115,7 +117,6 @@ public partial class Player : CharacterBody2D
         uint PLAYER_HURTBOX_COLLISION_MASK = 0b0100;
         hurtbox.SetCollisionMask(0b0);
         hurtbox.SetCollisionLayer(PLAYER_HURTBOX_COLLISION_MASK);
-
     }
 
     public override void _Process(double delta)
@@ -128,19 +129,14 @@ public partial class Player : CharacterBody2D
         }
 
         if (health.CurrHealth <= 0) HandleDeath();
-        if (TempStats.num_enemies_killed >= 2) HandleWin();
 
+        UpdateTargeterLocation();
         UpdateSprites();
 
     }
 
     private void UpdateSprites()
     {
-        // if (current_action == EntityUtils.PlayerState.DRAWING)
-        // {
-        //     return;
-        // }
-
         if (Velocity.X == 0 && Velocity.Y == 0) return;
         else if (Velocity.X > 0)
         {
@@ -158,8 +154,19 @@ public partial class Player : CharacterBody2D
         {
             sprite.Play("Up");
         }
+    }
 
-
+    private void UpdateTargeterLocation()
+    {
+        if (GameSettings.CurrentInputMode == GameSettings.InputMode.KEYBOARD)
+        {
+            GD.Print("Here");
+            targeter_location = GetGlobalMousePosition();
+        }
+        else
+        {
+            targeter_location = new(Input.GetAxis("AimLeft", "AimRight"), Input.GetAxis("AimDown", "AimUp"));
+        }
     }
 
     private void HandleWin()
@@ -257,8 +264,7 @@ public partial class Player : CharacterBody2D
     {
         if (Input.IsActionPressed("Shoot") && !is_drawing)
         {
-
-            gun.ShootGun(GetGlobalMousePosition());
+            gun.ShootGun(targeter_location);
         }
     }
 

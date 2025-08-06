@@ -8,7 +8,7 @@ public partial class EntityUtils : Node
         MOVING,
         DASHING,
         DRAWING,
-        SHOOTING,
+        ATTACKING,
     }
 
     public enum EnemyState
