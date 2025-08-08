@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cyij5xapg7pn6"]
+[gd_scene load_steps=20 format=3 uid="uid://cyij5xapg7pn6"]
 
 [ext_resource type="Script" uid="uid://3i0l5pvvfor1" path="res://Scripts/Player/Player.cs" id="1_vxq8l"]
 [ext_resource type="PackedScene" uid="uid://cst4slcygoxrr" path="res://Prefabs/Components/HurtboxComponent.tscn" id="2_gg3t4"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://ca1yntao5twoo" path="res://Prefabs/Components/HealthComponent.tscn" id="5_gg3t4"]
 [ext_resource type="PackedScene" uid="uid://b1u8qakuf7jk5" path="res://Prefabs/Components/EnergyComponent.tscn" id="6_javds"]
 [ext_resource type="PackedScene" uid="uid://c8uiacyupve3n" path="res://Prefabs/Guns/AlphabetSoupGun.tscn" id="7_javds"]
+[ext_resource type="Texture2D" uid="uid://hrs87xmgljpj" path="res://Sprites/Player/energy_generator.png" id="8_3ygst"]
+[ext_resource type="Script" uid="uid://dvujbtx4sy4hg" path="res://Scripts/Player/Shield.cs" id="8_lhekp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_javds"]
 shader = ExtResource("3_gg3t4")
@@ -74,11 +76,13 @@ _data = {
 &"hitlfash": SubResource("Animation_gg3t4")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_lhekp"]
+radius = 16.0312
+
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gun")]
 collision_mask = 5
 script = ExtResource("1_vxq8l")
 gun = NodePath("AlphabetSoupGun")
-metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_javds")
@@ -106,5 +110,17 @@ libraries = {
 }
 
 [node name="AlphabetSoupGun" parent="." instance=ExtResource("7_javds")]
+
+[node name="EnergyShield" type="Area2D" parent="."]
+visible = false
+script = ExtResource("8_lhekp")
+
+[node name="Sprite2D" type="Sprite2D" parent="EnergyShield"]
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("8_3ygst")
+
+[node name="Area2D" type="CollisionShape2D" parent="EnergyShield"]
+shape = SubResource("CircleShape2D_lhekp")
+debug_color = Color(1, 0, 0, 0.419608)
 
 [editable path="HurtboxComponent"]

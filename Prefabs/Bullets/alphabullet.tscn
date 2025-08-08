@@ -51,11 +51,16 @@ animations = [{
 "loop": false,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"destroy",
+"speed": 5.0
 }]
 
 [node name="Alphabullet" type="Node2D"]
 script = ExtResource("1_4rd1a")
-speed = 500
+movespeed = 400
 
 [node name="HitboxComponent" parent="." instance=ExtResource("1_lerda")]
 radius = 4.0

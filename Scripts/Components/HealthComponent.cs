@@ -26,6 +26,8 @@ public partial class HealthComponent : Node
 
     public void Damage(int value)
     {
+        if (curr_health <= 0) return;
+
         curr_health -= value;
         EmitSignal(SignalName.HealthChanged, curr_health);
 

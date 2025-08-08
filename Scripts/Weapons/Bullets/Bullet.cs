@@ -8,8 +8,8 @@ using Bookworm.Utils;
 namespace Bookworm.Weapon;
 public partial class Bullet : Node2D
 {
-    [Export] protected int speed = 100;
-    public int Speed { get => speed; set => speed = value; }
+    [Export] protected int movespeed = 100;
+    public int Movespeed { get => movespeed; set => movespeed = value; }
 
     [Export] protected int lifespan = 3000;
     public int Lifespan { get => lifespan; set => lifespan = value; }
@@ -33,6 +33,12 @@ public partial class Bullet : Node2D
     // Components
     [Export] protected AnimatedSprite2D sprite;
     [Export] protected HitboxComponent hitbox;
+    [Export] protected HurtboxComponent hurtbox;
+    [Export] protected HealthComponent health;
+
+    // Booleans
+    private bool destroy_animation_playing = false;
+    private bool destroy_animation_finished = false;
 
     public override void _Ready()
     {
@@ -49,6 +55,18 @@ public partial class Bullet : Node2D
         }
         hitbox.AreaEntered += OnAreaEntered;
 
+        if (hurtbox == null)
+        {
+            try
+            {
+                hurtbox = GetNode<HurtboxComponent>("HurtboxComponent");
+            }
+            catch
+            {
+                GD.PrintErr("Could not find bullet hurtbox");
+            }
+        }
+
         if (sprite == null)
         {
             sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -58,25 +76,27 @@ public partial class Bullet : Node2D
 
         uint PLAYER_HURTBOX_LAYER = 0b0100;
         uint ENEMY_HURTBOX_LAYER = 0b1000;
+        uint BULLET_HURTBOX_LAYER = 0b10000;
 
         if (source_group == EntityUtils.EntityGroup.ENEMY)
         {
-            // hitbox.CollisionLayer = PLAYER_HURTBOX_LAYER;
             hitbox.SetCollisionLayer(PLAYER_HURTBOX_LAYER);
+            hurtbox.SetCollisionMask(BULLET_HURTBOX_LAYER);
         }
         else
         {
-            // hitbox.CollisionLayer = ENEMY_HURTBOX_LAYER;
             hitbox.SetCollisionLayer(ENEMY_HURTBOX_LAYER);
         }
-        // hitbox.CollisionMask = 0b0;
         hitbox.SetCollisionMask(0b0);
         hitbox.Damage = damage;
+        hurtbox.SetCollisionLayer(0b0);
 
         bullet_start_time = Time.GetTicksMsec();
 
         Random rand = new();
         rotation_speed += (float)rand.NextDouble() * 0.25f;
+
+        sprite.AnimationFinished += OnAnimationFinished;
 
     }
 
@@ -86,6 +106,8 @@ public partial class Bullet : Node2D
         {
             HandleDestroy();
         }
+
+        if (health.CurrHealth <= 0) { HandleDestroy(); }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -96,15 +118,28 @@ public partial class Bullet : Node2D
 
     private void HandleDestroy()
     {
+        this.movespeed = 0;
         hitbox.SetActive(false);
         hitbox.CollisionLayer = 0b0;
         hitbox.CollisionMask = 0b0;
 
         if (!destroy_animation_playing)
         {
-
+            bullet_destroy_time = Time.GetTicksMsec();
+            try
+            {
+                sprite.Play("destroy");
+            }
+            catch
+            {
+                GD.PrintErr($"No destroy animation for {this.Name}");
+            }
         }
 
+        if (destroy_animation_finished)
+        {
+            QueueFree();
+        }
     }
 
     public void SetCollision(uint collision_layer, uint collision_mask = 0b0)
@@ -127,7 +162,7 @@ public partial class Bullet : Node2D
 
     protected void HandleMove(double delta)
     {
-        this.GlobalPosition += target_direction * (float)(delta * speed);
+        this.GlobalPosition += target_direction * (float)(delta * movespeed);
     }
 
     protected void HandleRotate(double delta)
@@ -146,6 +181,14 @@ public partial class Bullet : Node2D
 
         //TODO: Play Animation
         QueueFree();
+    }
+
+    private void OnAnimationFinished()
+    {
+        if (sprite.Animation == "destroy")
+        {
+            destroy_animation_finished = true;
+        }
     }
 
 }

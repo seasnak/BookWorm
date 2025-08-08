@@ -6,7 +6,6 @@ public partial class HurtboxComponent : Area2D
 {
     [Signal] public delegate void HurtboxHitEventHandler();
 
-    [Export] private Shape2D hurtbox_shape;
 
     private AnimatedSprite2D sprite;
     private HealthComponent health;
@@ -21,7 +20,6 @@ public partial class HurtboxComponent : Area2D
         }
 
         hurtbox = GetNode<CollisionShape2D>("CollisionShape2D");
-        if (hurtbox_shape != null) hurtbox.Shape = hurtbox_shape;
     }
 
     public override void _Process(double delta)

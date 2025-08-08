@@ -11,9 +11,9 @@ public partial class Player : CharacterBody2D
 {
     // Stats
     private int current_movespeed;
-    private int movespeed = 100;
-    private int movespeed_while_attacking = 75;
-    private int movespeed_while_drawing = 200;
+    private int movespeed = 120;
+    private int movespeed_while_attacking = 95;
+    private int movespeed_while_drawing = 150;
     private int dashspeed = 300;
 
     public int Movespeed { get => movespeed; set => movespeed = value; }
@@ -28,6 +28,11 @@ public partial class Player : CharacterBody2D
     private int draw_duration_per_energy = 10;
     private int draw_duration;
 
+    private ulong shield_starttime;
+    private int shield_duration = 100;
+    private int shield_health_cost = 30;
+    private int shield_lockout = 5000;
+
     private int invuln_duration = 100;
 
     private int time_between_points = 100;
@@ -39,11 +44,12 @@ public partial class Player : CharacterBody2D
 
     // Components
     [Export] private Line2D drawing_line;
-    [Export] private HealthComponent health;
-    [Export] private EnergyComponent energy;
-    [Export] private HurtboxComponent hurtbox;
-    [Export] private AnimatedSprite2D sprite;
+    private HealthComponent health;
+    private EnergyComponent energy;
+    private HurtboxComponent hurtbox;
+    private AnimatedSprite2D sprite;
     [Export] private Gun gun;
+    private Shield shield;
 
     public HealthComponent Health { get => health; }
     public EnergyComponent Energy { get => energy; }
@@ -59,6 +65,8 @@ public partial class Player : CharacterBody2D
     private bool is_drawing = false;
     private bool checked_loop_for_enemies = false;
     private bool is_attacking = false;
+    private bool is_shielding = false;
+    private bool can_shield = true;
 
     // Sprite Related Variables
     private EntityUtils.PlayerState current_action;
@@ -66,6 +74,8 @@ public partial class Player : CharacterBody2D
 
     // Signals
     [Signal] public delegate void CanDashEventHandler(bool can_dash);
+    [Signal] public delegate void CanShieldEventHandler(bool can_shield);
+    [Signal] public delegate void ShieldActivateEventHandler();
 
     public override void _Ready()
     {
@@ -138,6 +148,20 @@ public partial class Player : CharacterBody2D
 
     }
 
+    public override void _PhysicsProcess(double delta)
+    {
+        UpdateEnergy();
+
+        movement_input = new(Input.GetAxis("Left", "Right"), Input.GetAxis("Up", "Down"));
+
+        HandleMovement(movement_input);
+        HandleDrawing(movement_input);
+        HandleShoot(movement_input);
+        HandleShield();
+
+        MoveAndSlide();
+    }
+
     private void UpdateSprites()
     {
         if (Velocity.X == 0 && Velocity.Y == 0) return;
@@ -188,13 +212,13 @@ public partial class Player : CharacterBody2D
     {
         if (is_dashing)
         {
-            is_dashing = !CheckTimerComplete(dash_starttime, dash_duration);
+            is_dashing = !Utils.GameUtils.CheckTimerComplete(dash_starttime, dash_duration);
             can_dash = false;
             EmitSignal("CanDash", false);
         }
         else if (!can_dash)
         {
-            bool can_dash_temp = CheckTimerComplete(dash_starttime, dash_duration + dash_lockout);
+            bool can_dash_temp = Utils.GameUtils.CheckTimerComplete(dash_starttime, dash_duration + dash_lockout);
             if (can_dash != can_dash_temp)
             {
                 EmitSignal("CanDash", can_dash_temp);
@@ -203,29 +227,6 @@ public partial class Player : CharacterBody2D
         }
 
         if (is_drawing) { is_drawing = draw_duration > 0; }
-    }
-
-
-    private bool CheckTimerComplete(float timer_start_time, int duration)
-    {
-        if (Time.GetTicksMsec() - timer_start_time >= duration)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-        UpdateEnergy();
-
-        movement_input = new(Input.GetAxis("Left", "Right"), Input.GetAxis("Up", "Down"));
-
-        HandleMovement(movement_input);
-        HandleDrawing(movement_input);
-        HandleShoot(movement_input);
-
-        MoveAndSlide();
     }
 
     private void HandleDeath()
@@ -275,17 +276,18 @@ public partial class Player : CharacterBody2D
         }
     }
 
+    private void HandleShield()
+    {
+        if (Input.IsActionPressed("Shield"))
+        {
+            EmitSignal("ShieldActivate");
+            is_shielding = true;
+            shielding_starttime = Time.GetTicksMsec();
+        }
+    }
+
     private void HandleDrawing(Vector2 movement_input)
     {
-        if (is_drawing)
-        {
-            Engine.TimeScale = 0.5;
-            // Velocity *= 2;
-        }
-        else
-        {
-            Engine.TimeScale = 1;
-        }
 
         if (!is_drawing && Input.IsActionJustPressed("Draw") && energy.CurrEnergy > 0)
         {
@@ -336,6 +338,7 @@ public partial class Player : CharacterBody2D
 
     private void AddPointToLine(Vector2 position)
     {
+        if (drawn_points.Count > 3 && position.DistanceTo(drawn_points[^1]) < 5) return;
         drawn_points.Add(position);
         drawing_line.AddPoint(position);
     }
