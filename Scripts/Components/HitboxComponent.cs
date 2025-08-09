@@ -28,11 +28,6 @@ public partial class HitboxComponent : Area2D
 
     }
 
-    public void SetActive(bool is_active = true)
-    {
-        hitbox.Disabled = !is_active;
-    }
-
     private void OnAreaEntered(Node2D other)
     {
         if (other is not HurtboxComponent) return;

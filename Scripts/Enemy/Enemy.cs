@@ -69,14 +69,10 @@ public partial class Enemy : CharacterBody2D
             healthbar = GetNode<TextureProgressBar>("EntityLocalUI/HealthBar");
         }
 
-
-        uint PLAYER_HURTBOX_COLLISION_LAYER = 0b0100;
-        uint ENEMY_HURTBOX_COLLISION_LAYER = 0b1000;
-
-        hitbox.SetCollisionMask(PLAYER_HURTBOX_COLLISION_LAYER);
+        hitbox.SetCollisionMask(EntityUtils.PLAYER_HURTBOX_COLLISION_LAYER);
         hitbox.SetCollisionLayer(0b0);
         hurtbox.SetCollisionMask(0b0);
-        hurtbox.SetCollisionLayer(ENEMY_HURTBOX_COLLISION_LAYER);
+        hurtbox.SetCollisionLayer(EntityUtils.ENEMY_HURTBOX_COLLISION_LAYER);
 
         hurtbox.HurtboxHit += OnEnemyHit;
         health.HealthChanged += OnHealthChanged;
@@ -98,8 +94,8 @@ public partial class Enemy : CharacterBody2D
 
     private void HandleDeath()
     {
-        hitbox.SetActive(false);
-        hurtbox.SetActive(false);
+        hitbox.SetCollisionMask(0);
+        hurtbox.SetCollisionLayer(0);
         this.CollisionLayer = 0;
         this.CollisionMask = 0;
 
@@ -134,7 +130,6 @@ public partial class Enemy : CharacterBody2D
 
     private void OnHealthChanged(int new_value)
     {
-        GD.Print($"new health: {new_value}");
         if (health.CurrHealth <= 0)
         {
             is_damaged = true;

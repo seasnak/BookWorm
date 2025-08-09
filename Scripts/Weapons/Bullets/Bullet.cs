@@ -8,6 +8,8 @@ using Bookworm.Utils;
 namespace Bookworm.Weapon;
 public partial class Bullet : Node2D
 {
+    [Signal] public delegate void HitShieldEventHandler();
+
     [Export] protected int movespeed = 100;
     public int Movespeed { get => movespeed; set => movespeed = value; }
 
@@ -33,8 +35,6 @@ public partial class Bullet : Node2D
     // Components
     [Export] protected AnimatedSprite2D sprite;
     [Export] protected HitboxComponent hitbox;
-    [Export] protected HurtboxComponent hurtbox;
-    [Export] protected HealthComponent health;
 
     // Booleans
     private bool destroy_animation_playing = false;
@@ -55,18 +55,6 @@ public partial class Bullet : Node2D
         }
         hitbox.AreaEntered += OnAreaEntered;
 
-        if (hurtbox == null)
-        {
-            try
-            {
-                hurtbox = GetNode<HurtboxComponent>("HurtboxComponent");
-            }
-            catch
-            {
-                GD.PrintErr("Could not find bullet hurtbox");
-            }
-        }
-
         if (sprite == null)
         {
             sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -74,22 +62,16 @@ public partial class Bullet : Node2D
         // Random rand = new();
         // sprite.Frame = rand.Next(0, sprite.Hframes);
 
-        uint PLAYER_HURTBOX_LAYER = 0b0100;
-        uint ENEMY_HURTBOX_LAYER = 0b1000;
-        uint BULLET_HURTBOX_LAYER = 0b10000;
-
         if (source_group == EntityUtils.EntityGroup.ENEMY)
         {
-            hitbox.SetCollisionLayer(PLAYER_HURTBOX_LAYER);
-            hurtbox.SetCollisionMask(BULLET_HURTBOX_LAYER);
+            hitbox.SetCollisionLayer(EntityUtils.PLAYER_HURTBOX_COLLISION_LAYER);
         }
         else
         {
-            hitbox.SetCollisionLayer(ENEMY_HURTBOX_LAYER);
+            hitbox.SetCollisionLayer(EntityUtils.ENEMY_HITBOX_COLLISION_MASK);
         }
         hitbox.SetCollisionMask(0b0);
         hitbox.Damage = damage;
-        hurtbox.SetCollisionLayer(0b0);
 
         bullet_start_time = Time.GetTicksMsec();
 
@@ -106,8 +88,6 @@ public partial class Bullet : Node2D
         {
             HandleDestroy();
         }
-
-        if (health.CurrHealth <= 0) { HandleDestroy(); }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -119,7 +99,6 @@ public partial class Bullet : Node2D
     private void HandleDestroy()
     {
         this.movespeed = 0;
-        hitbox.SetActive(false);
         hitbox.CollisionLayer = 0b0;
         hitbox.CollisionMask = 0b0;
 
@@ -133,6 +112,8 @@ public partial class Bullet : Node2D
             catch
             {
                 GD.PrintErr($"No destroy animation for {this.Name}");
+                QueueFree();
+                return;
             }
         }
 
@@ -146,17 +127,12 @@ public partial class Bullet : Node2D
     {
         hitbox.CollisionLayer = collision_layer;
         hitbox.CollisionMask = collision_mask;
-
     }
 
     public void SetCollision(EntityUtils.EntityGroup entity_group)
     {
-        uint PLAYER_HURTBOX_LAYER = 0b0100;
-        uint ENEMY_HURTBOX_LAYER = 0b1000;
-
-        if (entity_group == EntityUtils.EntityGroup.PLAYER) hitbox.SetCollisionMask(ENEMY_HURTBOX_LAYER);
-        else hitbox.SetCollisionMask(PLAYER_HURTBOX_LAYER);
-        // hitbox.CollisionMask = 0b0;
+        if (entity_group == EntityUtils.EntityGroup.PLAYER) hitbox.SetCollisionMask(EntityUtils.ENEMY_HURTBOX_COLLISION_LAYER);
+        else hitbox.SetCollisionMask(EntityUtils.PLAYER_HURTBOX_COLLISION_LAYER);
         hitbox.SetCollisionLayer(0b0);
     }
 
@@ -173,14 +149,20 @@ public partial class Bullet : Node2D
 
     protected virtual void OnAreaEntered(Node2D body)
     {
-        if (body is not HurtboxComponent) return;
         if (body == null) return;
+        if (body is Shield)
+        {
+            ((Shield)body).HandleBulletCollision(this);
+            HandleDestroy();
+            return;
+        }
+        if (body is not HurtboxComponent) return;
 
+        // Hurtbox Only
         if (source_group == EntityUtils.EntityGroup.ENEMY && body.Owner is Enemy) return;
         else if (source_group == EntityUtils.EntityGroup.PLAYER && body.Owner is Player) return;
-
-        //TODO: Play Animation
-        QueueFree();
+        HandleDestroy();
+        return;
     }
 
     private void OnAnimationFinished()

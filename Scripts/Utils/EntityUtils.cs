@@ -25,4 +25,5 @@ public partial class EntityUtils : Node
 
     public const uint PLAYER_HURTBOX_COLLISION_LAYER = 0b0100;
     public const uint ENEMY_HURTBOX_COLLISION_LAYER = 0b1000;
+    public const uint ENEMY_HITBOX_COLLISION_MASK = 0b0100;
 }

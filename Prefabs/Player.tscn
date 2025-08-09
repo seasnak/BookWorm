@@ -111,15 +111,14 @@ libraries = {
 
 [node name="AlphabetSoupGun" parent="." instance=ExtResource("7_javds")]
 
-[node name="EnergyShield" type="Area2D" parent="."]
-visible = false
+[node name="Shield" type="Area2D" parent="."]
 script = ExtResource("8_lhekp")
 
-[node name="Sprite2D" type="Sprite2D" parent="EnergyShield"]
+[node name="Sprite2D" type="Sprite2D" parent="Shield"]
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("8_3ygst")
 
-[node name="Area2D" type="CollisionShape2D" parent="EnergyShield"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield"]
 shape = SubResource("CircleShape2D_lhekp")
 debug_color = Color(1, 0, 0, 0.419608)
 

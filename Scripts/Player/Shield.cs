@@ -1,17 +1,18 @@
 using Godot;
-using System;
 
-using Bookworm.Components;
+using Bookworm.Weapon;
+using Bookworm.Utils;
 
 namespace Bookworm.Entity;
 public partial class Shield : Area2D
 {
+    // Signals
+    [Signal] public delegate void ShieldDurationChangedEventHandler(int new_duration);
+
     // Stats
     [Export] private int energy_restored_on_hit = 20;
     public int EnergyRestoredOnHit { get => energy_restored_on_hit; }
 
-    [Export] private int duration = 10;
-    public int Duration { get => duration; }
 
     // Components
     [Export] private Player source;
@@ -38,10 +39,7 @@ public partial class Shield : Area2D
             collider = GetNode<CollisionShape2D>("CollisionShape2D");
         }
 
-        this.Visible = false;
-        collider.Disabled = true;
-        uint ENEMY_BULLET_COLLISION_MASK = 0b10000;
-        this.SetCollisionMask(ENEMY_BULLET_COLLISION_MASK);
+        SetShieldActive(false);
         source.ShieldActivate += OnShieldActivate;
     }
 
@@ -50,12 +48,24 @@ public partial class Shield : Area2D
 
     }
 
-    private void OnShieldActivate(int duration)
+    private void ToggleShieldActive()
     {
-        this.Visible = true;
-        collider.Disabled = false;
+        SetShieldActive(!sprite.Visible);
     }
 
+    private void SetShieldActive(bool is_active)
+    {
+        sprite.Visible = is_active;
+        this.CollisionLayer = is_active ? EntityUtils.PLAYER_HURTBOX_COLLISION_LAYER : 0b0;
+    }
 
+    private void OnShieldActivate(bool is_active)
+    {
+        SetShieldActive(is_active);
+    }
 
+    public void HandleBulletCollision(Bullet bullet)
+    {
+        source.Energy.RestoreEnergy(energy_restored_on_hit);
+    }
 }

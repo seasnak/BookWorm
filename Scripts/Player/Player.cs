@@ -14,14 +14,14 @@ public partial class Player : CharacterBody2D
     private int movespeed = 120;
     private int movespeed_while_attacking = 95;
     private int movespeed_while_drawing = 150;
-    private int dashspeed = 300;
+    private int dashspeed = 350;
 
     public int Movespeed { get => movespeed; set => movespeed = value; }
     public int Dashspeed { get => dashspeed; set => dashspeed = value; }
 
     // Timers
     private ulong dash_starttime;
-    private int dash_duration = 130;
+    private int dash_duration = 120;
     private int dash_lockout = 500;
 
     private ulong draw_starttime;
@@ -29,9 +29,9 @@ public partial class Player : CharacterBody2D
     private int draw_duration;
 
     private ulong shield_starttime;
-    private int shield_duration = 100;
-    private int shield_health_cost = 30;
-    private int shield_lockout = 5000;
+    [Export] private int shield_duration = 2000;
+    private int shield_health_cost = 10;
+    private int shield_lockout = 8000;
 
     private int invuln_duration = 100;
 
@@ -75,7 +75,7 @@ public partial class Player : CharacterBody2D
     // Signals
     [Signal] public delegate void CanDashEventHandler(bool can_dash);
     [Signal] public delegate void CanShieldEventHandler(bool can_shield);
-    [Signal] public delegate void ShieldActivateEventHandler();
+    [Signal] public delegate void ShieldActivateEventHandler(bool is_active);
 
     public override void _Ready()
     {
@@ -105,7 +105,6 @@ public partial class Player : CharacterBody2D
             catch
             {
                 GD.PrintErr("Could not find Node containing Drawing Line");
-                // this.GetParent().AddChild(drawing_line);
                 return;
             }
         }
@@ -127,9 +126,8 @@ public partial class Player : CharacterBody2D
         }
 
         hurtbox.HurtboxHit += OnPlayerHit;
-        uint PLAYER_HURTBOX_COLLISION_MASK = 0b0100;
         hurtbox.SetCollisionMask(0b0);
-        hurtbox.SetCollisionLayer(PLAYER_HURTBOX_COLLISION_MASK);
+        hurtbox.SetCollisionLayer(EntityUtils.PLAYER_HURTBOX_COLLISION_LAYER);
     }
 
     public override void _Process(double delta)
@@ -218,15 +216,34 @@ public partial class Player : CharacterBody2D
         }
         else if (!can_dash)
         {
-            bool can_dash_temp = Utils.GameUtils.CheckTimerComplete(dash_starttime, dash_duration + dash_lockout);
-            if (can_dash != can_dash_temp)
+            if (Utils.GameUtils.CheckTimerComplete(dash_starttime, dash_duration + dash_lockout))
             {
-                EmitSignal("CanDash", can_dash_temp);
-                can_dash = can_dash_temp;
+                EmitSignal("CanDash", true);
+                can_dash = true;
+            }
+        }
+
+        if (is_shielding)
+        {
+            is_shielding = !Utils.GameUtils.CheckTimerComplete(shield_starttime, dash_duration);
+            can_shield = false;
+            EmitSignal("CanShield", false);
+        }
+        else if (!can_shield)
+        {
+            if (Utils.GameUtils.CheckTimerComplete(shield_starttime, shield_duration + shield_lockout))
+            {
+                EmitSignal("CanShield", true);
+                can_shield = true;
             }
         }
 
         if (is_drawing) { is_drawing = draw_duration > 0; }
+        if (!is_shielding)
+        {
+            EmitSignal("ShieldActivate", false);
+            is_shielding = false;
+        }
     }
 
     private void HandleDeath()
@@ -278,11 +295,16 @@ public partial class Player : CharacterBody2D
 
     private void HandleShield()
     {
-        if (Input.IsActionPressed("Shield"))
+        if (is_shielding) return;
+
+        if (can_shield && Input.IsActionPressed("Shield"))
         {
-            EmitSignal("ShieldActivate");
+            EmitSignal("ShieldActivate", true);
             is_shielding = true;
-            shielding_starttime = Time.GetTicksMsec();
+            can_shield = false;
+            shield_starttime = Time.GetTicksMsec();
+
+            health.Damage(shield_health_cost);
         }
     }
 

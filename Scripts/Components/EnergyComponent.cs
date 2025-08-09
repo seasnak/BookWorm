@@ -27,6 +27,7 @@ public partial class EnergyComponent : Node
 
     public void ExpendEnergy(int value)
     {
+        if (curr_energy <= 0) return;
         curr_energy -= value;
         EmitSignal(SignalName.EnergyChanged, curr_energy);
     }
