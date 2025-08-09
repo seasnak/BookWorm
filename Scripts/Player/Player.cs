@@ -30,7 +30,7 @@ public partial class Player : CharacterBody2D
 
     private ulong shield_starttime;
     [Export] private int shield_duration = 2000;
-    private int shield_health_cost = 10;
+    private int shield_health_cost = 5;
     private int shield_lockout = 8000;
 
     private int invuln_duration = 100;
@@ -402,6 +402,7 @@ public partial class Player : CharacterBody2D
     private void OnPlayerHit() // Handle Invulnerability Frames
     {
         // hurtbox.SetActive(false);
+        GD.Print($"Player Health: {health.CurrHealth}");
     }
 
     private void OnEnemyHitWithBullet(int heal_amount)

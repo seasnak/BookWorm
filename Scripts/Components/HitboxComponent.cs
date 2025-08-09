@@ -5,7 +5,7 @@ namespace Bookworm.Components;
 public partial class HitboxComponent : Area2D
 {
 
-    private int damage = 1;
+    private int damage = 0;
     public int Damage { get => damage; set => damage = value; }
 
     [Export] private string shape = "Circle";
@@ -25,7 +25,6 @@ public partial class HitboxComponent : Area2D
 
     public override void _Process(double delta)
     {
-
     }
 
     private void OnAreaEntered(Node2D other)
@@ -34,6 +33,7 @@ public partial class HitboxComponent : Area2D
         if (other is null) return;
         if (other.Owner == this.Owner) return;
 
+        GD.Print($"Dealing {damage} damage to {other.GetParent().Name}");
         ((HurtboxComponent)other).DamageHealth(damage);
     }
 

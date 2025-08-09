@@ -17,7 +17,15 @@ public partial class Bullet : Node2D
     public int Lifespan { get => lifespan; set => lifespan = value; }
 
     [Export] protected int damage = 0;
-    public int Damage { get => damage; set => damage = value; }
+    public int Damage
+    {
+        get => damage; set => SetDamage(value);
+    }
+    public void SetDamage(int value)
+    {
+        damage = value;
+        hitbox.Damage = value;
+    }
 
     [Export] protected float rotation_speed = 0.2f;
     public float RotationSpeed { get => rotation_speed; set => rotation_speed = value; }
@@ -40,6 +48,7 @@ public partial class Bullet : Node2D
     private bool destroy_animation_playing = false;
     private bool destroy_animation_finished = false;
 
+
     public override void _Ready()
     {
         if (hitbox == null)
@@ -59,8 +68,6 @@ public partial class Bullet : Node2D
         {
             sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         }
-        // Random rand = new();
-        // sprite.Frame = rand.Next(0, sprite.Hframes);
 
         if (source_group == EntityUtils.EntityGroup.ENEMY)
         {
@@ -150,13 +157,13 @@ public partial class Bullet : Node2D
     protected virtual void OnAreaEntered(Node2D body)
     {
         if (body == null) return;
-        if (body is Shield)
+        else if (body is Shield)
         {
             ((Shield)body).HandleBulletCollision(this);
             HandleDestroy();
             return;
         }
-        if (body is not HurtboxComponent) return;
+        else if (body is not HurtboxComponent) return;
 
         // Hurtbox Only
         if (source_group == EntityUtils.EntityGroup.ENEMY && body.Owner is Enemy) return;
