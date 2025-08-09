@@ -78,15 +78,14 @@ public partial class Bullet : Node2D
             hitbox.SetCollisionLayer(EntityUtils.ENEMY_HITBOX_COLLISION_MASK);
         }
         hitbox.SetCollisionMask(0b0);
-        hitbox.Damage = damage;
 
         bullet_start_time = Time.GetTicksMsec();
 
         Random rand = new();
-        rotation_speed += (float)rand.NextDouble() * 0.25f;
+        rotation_speed = rotation_speed == 0 ? 0 : rotation_speed + (float)rand.NextDouble() * 0.25f;
 
         sprite.AnimationFinished += OnAnimationFinished;
-
+        hitbox.Damage = damage;
     }
 
     public override void _Process(double delta)
@@ -95,6 +94,8 @@ public partial class Bullet : Node2D
         {
             HandleDestroy();
         }
+
+        // hitbox.Damage = damage;
     }
 
     public override void _PhysicsProcess(double delta)

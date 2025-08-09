@@ -33,7 +33,6 @@ public partial class HitboxComponent : Area2D
         if (other is null) return;
         if (other.Owner == this.Owner) return;
 
-        GD.Print($"Dealing {damage} damage to {other.GetParent().Name}");
         ((HurtboxComponent)other).DamageHealth(damage);
     }
 

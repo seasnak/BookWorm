@@ -226,8 +226,10 @@ public partial class Player : CharacterBody2D
         if (is_shielding)
         {
             is_shielding = !Utils.GameUtils.CheckTimerComplete(shield_starttime, dash_duration);
-            can_shield = false;
-            EmitSignal("CanShield", false);
+            if (!is_shielding)
+            {
+                EmitSignal("ShieldActivate", false);
+            }
         }
         else if (!can_shield)
         {
@@ -239,11 +241,6 @@ public partial class Player : CharacterBody2D
         }
 
         if (is_drawing) { is_drawing = draw_duration > 0; }
-        if (!is_shielding)
-        {
-            EmitSignal("ShieldActivate", false);
-            is_shielding = false;
-        }
     }
 
     private void HandleDeath()
@@ -300,6 +297,7 @@ public partial class Player : CharacterBody2D
         if (can_shield && Input.IsActionPressed("Shield"))
         {
             EmitSignal("ShieldActivate", true);
+            EmitSignal("CanShield", false);
             is_shielding = true;
             can_shield = false;
             shield_starttime = Time.GetTicksMsec();
@@ -402,7 +400,6 @@ public partial class Player : CharacterBody2D
     private void OnPlayerHit() // Handle Invulnerability Frames
     {
         // hurtbox.SetActive(false);
-        GD.Print($"Player Health: {health.CurrHealth}");
     }
 
     private void OnEnemyHitWithBullet(int heal_amount)

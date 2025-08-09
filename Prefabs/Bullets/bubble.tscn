@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://dg1imwmpapkcq"]
 
-[ext_resource type="Script" uid="uid://dki1wctaus0tf" path="res://Scripts/Weapons/Bullets/Alphabullet.cs" id="1_u467d"]
+[ext_resource type="Script" uid="uid://cktfn3pbo8roc" path="res://Scripts/Weapons/Bullets/Bullet.cs" id="1_prrlf"]
 [ext_resource type="Shader" uid="uid://bekuxpdn1ry68" path="res://Shaders/wobble.gdshader" id="2_prrlf"]
 [ext_resource type="Texture2D" uid="uid://eg4iomfv1wqj" path="res://Sprites/Bullets/bubble.png" id="3_46mw3"]
 [ext_resource type="PackedScene" uid="uid://ujpi0otr0il1" path="res://Prefabs/Components/HitboxComponent.tscn" id="4_lujo6"]
@@ -52,8 +52,9 @@ animations = [{
 radius = 5.0
 
 [node name="Bubble" type="Node2D"]
-script = ExtResource("1_u467d")
+script = ExtResource("1_prrlf")
 lifespan = 1000
+damage = 5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_bxm2j")
