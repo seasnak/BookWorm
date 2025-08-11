@@ -80,7 +80,7 @@ public partial class Enemy : CharacterBody2D
         (sprite.Material as ShaderMaterial).SetShaderParameter("is_active", false);
 
         // randomize shooting interval
-        time_since_last_shot -= (Double)GD.Randf();
+        // time_since_last_shot -= (Double)GD.Randf();
     }
 
     public override void _Process(double delta)

@@ -53,15 +53,15 @@ public partial class Shield : Area2D
         SetShieldActive(!sprite.Visible);
     }
 
+    private void OnShieldActivate(bool is_active)
+    {
+        SetShieldActive(is_active);
+    }
+
     private void SetShieldActive(bool is_active)
     {
         sprite.Visible = is_active;
         this.CollisionLayer = is_active ? EntityUtils.PLAYER_HURTBOX_COLLISION_LAYER : 0b0;
-    }
-
-    private void OnShieldActivate(bool is_active)
-    {
-        SetShieldActive(is_active);
     }
 
     public void HandleBulletCollision(Bullet bullet)

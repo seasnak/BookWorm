@@ -28,7 +28,7 @@ public partial class Player : CharacterBody2D
     private int draw_duration_per_energy = 10;
     private int draw_duration;
 
-    private ulong shield_starttime;
+    private ulong shield_starttime = 0;
     [Export] private int shield_duration = 2000;
     private int shield_health_cost = 5;
     private int shield_lockout = 8000;
@@ -225,7 +225,7 @@ public partial class Player : CharacterBody2D
 
         if (is_shielding)
         {
-            is_shielding = !Utils.GameUtils.CheckTimerComplete(shield_starttime, dash_duration);
+            is_shielding = !Utils.GameUtils.CheckTimerComplete(shield_starttime, shield_duration);
             if (!is_shielding)
             {
                 EmitSignal("ShieldActivate", false);
