@@ -58,6 +58,9 @@ public partial class Player : CharacterBody2D
     private List<Vector2> drawn_points = new();
     private const float LOOP_TOLERANCE_DISTANCE = 20f;
     private Vector2 targeter_location = new();
+    private int AIM_RETICLE_RADIUS = 5;
+    [Export] private Sprite2D aim_reticle;
+
 
     // Booleans
     private bool is_dashing = false;
@@ -189,8 +192,9 @@ public partial class Player : CharacterBody2D
         }
         else
         {
-            targeter_location = new(Input.GetAxis("AimLeft", "AimRight"), Input.GetAxis("AimDown", "AimUp"));
+            targeter_location = this.GlobalPosition + new Vector2(Input.GetAxis("AimLeft", "AimRight"), Input.GetAxis("AimUp", "AimDown")) * AIM_RETICLE_RADIUS;
         }
+        aim_reticle.Position = targeter_location;
     }
 
     private void HandleWin()
