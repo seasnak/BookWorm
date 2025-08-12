@@ -94,6 +94,7 @@ public partial class Enemy : CharacterBody2D
 
     private void HandleDeath()
     {
+        gun.MagSize = 0;
         hitbox.SetCollisionMask(0);
         hurtbox.SetCollisionLayer(0);
         this.CollisionLayer = 0;
@@ -106,7 +107,7 @@ public partial class Enemy : CharacterBody2D
             death_animation_starttime = Time.GetTicksMsec();
         }
 
-        int DEATH_ANIMATION_DURATION = 2000;
+        int DEATH_ANIMATION_DURATION = 1000;
         if (GameUtils.CheckTimerComplete(death_animation_starttime, DEATH_ANIMATION_DURATION)) QueueFree();
     }
 

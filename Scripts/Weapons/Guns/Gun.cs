@@ -1,10 +1,8 @@
 using Godot;
-using System;
 
 using Bookworm.Utils;
 
 namespace Bookworm.Weapon;
-
 public partial class Gun : Node2D
 {
 
@@ -16,7 +14,12 @@ public partial class Gun : Node2D
     [Export] protected PackedScene bullet;
     private int curr_bullets;
 
-    public int MagSize { get => mag_size; }
+    public int MagSize { get => mag_size; set => SetMagSize(value); }
+    private void SetMagSize(int value)
+    {
+        mag_size = value;
+        // Emit Signal
+    }
     public int CurrBullets { get => curr_bullets; }
 
     // [Export] private int damage;

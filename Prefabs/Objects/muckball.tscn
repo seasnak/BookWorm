@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dw4ut38twrvp0"]
+
+[ext_resource type="Texture2D" uid="uid://b4pra4cxopo1e" path="res://Sprites/PaperEnemy/Generic/muckball.png" id="1_a1cwn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v676g"]
+radius = 8.0
+
+[node name="Muckball" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_a1cwn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_v676g")

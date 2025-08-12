@@ -29,9 +29,9 @@ public partial class Player : CharacterBody2D
     private int draw_duration;
 
     private ulong shield_starttime = 0;
-    [Export] private int shield_duration = 2000;
+    [Export] private int shield_duration = 1000;
     private int shield_health_cost = 5;
-    private int shield_lockout = 8000;
+    private int shield_lockout = 4000;
 
     private int invuln_duration = 100;
 
@@ -322,7 +322,7 @@ public partial class Player : CharacterBody2D
     {
         if (!is_drawing && Input.IsActionJustPressed("Draw") && energy.CurrEnergy > 0)
         {
-            GD.Print("Player pressed \"Draw\"");
+            // GD.Print("Player pressed \"Draw\"");
             drawn_points.Clear();
             drawing_line.ClearPoints();
             is_drawing = true;
@@ -330,7 +330,7 @@ public partial class Player : CharacterBody2D
         }
         else if (is_drawing && Input.IsActionJustPressed("Draw"))
         {
-            GD.Print("Player stoppped drawing early");
+            // GD.Print("Player stoppped drawing early");
             is_drawing = false;
             CheckForLoopAndKill();
             checked_loop_for_enemies = true;
@@ -369,7 +369,7 @@ public partial class Player : CharacterBody2D
 
     private void AddPointToLine(Vector2 position)
     {
-        if (drawn_points.Count > 3 && position.DistanceTo(drawn_points[^1]) < 5) return;
+        if (drawn_points.Count > 3 && position.DistanceTo(drawn_points[^1]) < 3) return;
         drawn_points.Add(position);
         drawing_line.AddPoint(position);
     }
@@ -377,7 +377,7 @@ public partial class Player : CharacterBody2D
     private void CheckForLoopAndKill()
     {
         int MINIMUM_VERTICE_COUNT = 3;
-        GD.Print(drawn_points.Count);
+        // GD.Print(drawn_points.Count);
 
         if (drawn_points.Count < MINIMUM_VERTICE_COUNT) return;
 
@@ -386,7 +386,7 @@ public partial class Player : CharacterBody2D
 
         if (first_point.DistanceTo(last_point) <= LOOP_TOLERANCE_DISTANCE)
         {
-            GD.Print("Loop Detected");
+            // GD.Print("Loop Detected");
             KillEnemiesInLoop();
         }
     }
