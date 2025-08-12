@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://0b3udutbq8nu"]
+[gd_scene load_steps=16 format=3 uid="uid://0b3udutbq8nu"]
 
 [ext_resource type="PackedScene" uid="uid://cyij5xapg7pn6" path="res://Prefabs/Player.tscn" id="1_nes3m"]
 [ext_resource type="Script" uid="uid://xnu60ldiy4lj" path="res://Scripts/Camera/CameraController.cs" id="3_nes3m"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://dliwusxptrjkn" path="res://Sprites/UI/dash_ui_candash.png" id="10_yr35r"]
 [ext_resource type="PackedScene" uid="uid://b2sx1qg3g2usg" path="res://Prefabs/Enemies/rockfish.tscn" id="11_3syrs"]
 [ext_resource type="Texture2D" uid="uid://rd5e2aobawps" path="res://Sprites/UI/dash_ui_cantdash.png" id="11_cfqgl"]
+[ext_resource type="Texture2D" uid="uid://p3uiudnvm2qm" path="res://Sprites/UI/Gameplay/target_reticle.png" id="15_mxeb2"]
 
 [node name="World" type="Node2D"]
 
@@ -77,3 +78,6 @@ position = Vector2(70, 99)
 
 [node name="Rockfish" parent="." instance=ExtResource("11_3syrs")]
 position = Vector2(-49, 41)
+
+[node name="TargetReticle" type="Sprite2D" parent="."]
+texture = ExtResource("15_mxeb2")

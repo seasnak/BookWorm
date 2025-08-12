@@ -58,7 +58,7 @@ public partial class Player : CharacterBody2D
     private List<Vector2> drawn_points = new();
     private const float LOOP_TOLERANCE_DISTANCE = 20f;
     private Vector2 targeter_location = new();
-    private int AIM_RETICLE_RADIUS = 5;
+    private int AIM_RETICLE_RADIUS = 40;
     [Export] private Sprite2D aim_reticle;
 
 
@@ -122,15 +122,22 @@ public partial class Player : CharacterBody2D
             catch { GD.PrintErr("Could not find Player Hurtbox"); }
         }
 
+
+        hurtbox.HurtboxHit += OnPlayerHit;
+        hurtbox.SetCollisionMask(0b0);
+        hurtbox.SetCollisionLayer(EntityUtils.PLAYER_HURTBOX_COLLISION_LAYER);
+
         if (gun == null)
         {
             try { gun = GetNode<Gun>("Gun"); }
             catch { GD.PrintErr("Could not find Player Gun"); }
         }
 
-        hurtbox.HurtboxHit += OnPlayerHit;
-        hurtbox.SetCollisionMask(0b0);
-        hurtbox.SetCollisionLayer(EntityUtils.PLAYER_HURTBOX_COLLISION_LAYER);
+        if (aim_reticle == null)
+        {
+            try { aim_reticle = GetNode<Sprite2D>("/root/World/TargetReticle"); }
+            catch { GD.PrintErr("Could not find Target Reticle"); }
+        }
     }
 
     public override void _Process(double delta)
@@ -288,6 +295,7 @@ public partial class Player : CharacterBody2D
 
     private void HandleShoot(Vector2 movement_input)
     {
+        if (targeter_location == this.GlobalPosition) return;
         if (Input.IsActionPressed("Shoot") && !is_drawing)
         {
             gun.ShootGun(targeter_location);
@@ -312,7 +320,6 @@ public partial class Player : CharacterBody2D
 
     private void HandleDrawing(Vector2 movement_input)
     {
-
         if (!is_drawing && Input.IsActionJustPressed("Draw") && energy.CurrEnergy > 0)
         {
             GD.Print("Player pressed \"Draw\"");
