@@ -26,11 +26,14 @@ public partial class Gun : Node2D
     [Export] private int time_between_shots = 200; // in time between bullet shots (in msec)
     [Export] private int fast_reload_time;
     [Export] private int normal_reload_time = 1200;
+    [Export] private int reload_time_variance = 0;
     [Export] private int fast_reload_leniency;
     [Export] private float bullet_spread = 0f;
     [Export] private EntityUtils.EntityGroup damage_source = EntityUtils.EntityGroup.PLAYER;
 
     public EntityUtils.EntityGroup DamageSource { get => damage_source; set => damage_source = value; }
+    public int ReloadTimeVariance { get => reload_time_variance; set => reload_time_variance = value; }
+
 
     // Timers
     private ulong bullet_shot_starttime;
@@ -61,10 +64,11 @@ public partial class Gun : Node2D
             reload_starttime = Time.GetTicksMsec();
         }
 
-        if (GameUtils.CheckTimerComplete(reload_starttime, normal_reload_time))
+        if (GameUtils.CheckTimerComplete(reload_starttime, normal_reload_time + reload_time_variance))
         {
             is_reloading = false;
             curr_bullets = mag_size;
+            EmitSignal("GunReloaded");
         }
     }
 

@@ -19,9 +19,7 @@ public partial class Enemy : CharacterBody2D
     [Export] protected CollisionShape2D collider;
     [Export] protected AnimatedSprite2D sprite;
     [Export] protected Gun gun;
-    [Export] protected double fire_rate = 1;
 
-    private double time_since_last_shot = 0;
     private ulong death_animation_starttime = 0;
 
     private bool is_dead = false;
@@ -78,9 +76,7 @@ public partial class Enemy : CharacterBody2D
         health.HealthChanged += OnHealthChanged;
 
         (sprite.Material as ShaderMaterial).SetShaderParameter("is_active", false);
-
-        // randomize shooting interval
-        // time_since_last_shot -= (Double)GD.Randf();
+        gun.GunReloaded += OnGunReloaded;
     }
 
     public override void _Process(double delta)
@@ -142,5 +138,10 @@ public partial class Enemy : CharacterBody2D
         }
 
         UpdateHealthbar();
+    }
+
+    private void OnGunReloaded()
+    {
+        gun.ReloadTimeVariance = (int)(GD.Randf() * 60);
     }
 }
