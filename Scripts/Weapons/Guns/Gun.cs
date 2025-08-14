@@ -34,7 +34,6 @@ public partial class Gun : Node2D
     public EntityUtils.EntityGroup DamageSource { get => damage_source; set => damage_source = value; }
     public int ReloadTimeVariance { get => reload_time_variance; set => reload_time_variance = value; }
 
-
     // Timers
     private ulong bullet_shot_starttime;
     private ulong reload_starttime;
@@ -42,6 +41,8 @@ public partial class Gun : Node2D
     // Booleans
     private bool bullet_shot = false;
     private bool is_reloading = false;
+    private bool is_disabled = false;
+    public bool IsDisabled { get => is_disabled; set => is_disabled = value; }
 
     // Components
     private AnimatedSprite2D sprite; // optional -- make UI for it later
@@ -53,6 +54,7 @@ public partial class Gun : Node2D
 
     public override void _Process(double delta)
     {
+        if (is_disabled) { curr_bullets = 0; mag_size = 0; }
 
     }
 
@@ -101,6 +103,5 @@ public partial class Gun : Node2D
         {
             HandleShoot(target_position);
         }
-
     }
 }

@@ -1,14 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://dw4ut38twrvp0"]
+[gd_scene load_steps=4 format=3 uid="uid://dw4ut38twrvp0"]
 
-[ext_resource type="Texture2D" uid="uid://b4pra4cxopo1e" path="res://Sprites/PaperEnemy/Generic/muckball.png" id="1_a1cwn"]
+[ext_resource type="Script" uid="uid://cp7q13bdqnkk3" path="res://Scripts/Objects/Muckball.cs" id="1_v676g"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a1cwn"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"destroy",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v676g"]
 radius = 8.0
 
 [node name="Muckball" type="Area2D"]
+script = ExtResource("1_v676g")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_a1cwn")
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_a1cwn")
+animation = &"destroy"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_v676g")

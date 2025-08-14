@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tyco0ugnl5q5"
-path="res://.godot/imported/bubble(2).png-359017e1e375f428dbad024fb7155b03.ctex"
+uid="uid://bhb7cd10wn5h2"
+path="res://.godot/imported/gun_reload_bar.png-8016f3e5359d54898315d814aa8b1584.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Bullets/bubble(2).png"
-dest_files=["res://.godot/imported/bubble(2).png-359017e1e375f428dbad024fb7155b03.ctex"]
+source_file="res://Sprites/UI/Gameplay/gun_reload_bar.png"
+dest_files=["res://.godot/imported/gun_reload_bar.png-8016f3e5359d54898315d814aa8b1584.ctex"]
 
 [params]
 

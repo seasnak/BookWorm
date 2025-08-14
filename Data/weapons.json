@@ -1,0 +1,37 @@
+{
+    "_comment": "values of -1 keep the properties of the bullet attached to them",
+    "Gun": [
+        {
+            "Basic Gun": {
+                "Bullet": "res:://Prefabs/Bullets/BasicBullet.tscn",
+                "Ammo": 25,
+                "Time Between Shots": 50,
+                "Fast Reload Time": 250,
+                "Reload Time": 300,
+                "Reload Time Variance": 0,
+                "Fast Reload Variance": 0,
+                "Bullet Spread": 120,
+                "Bullet Speed": 150,
+                "Bullet Lifespan": 1000,
+                "Bullet Damage": 20,
+                "Shooting Style": "Singular",
+                "Description": "The most boring, basic, bland, boring, beige, gun.",
+            }
+            "Alphabet Soup Gun": {
+                "Bullet": "res://Prefabs/Bullets/Alphabullet.tscn",
+                "Ammo": 10,
+                "Time Between Shots": 100,
+                "Fast Reload Time": 250,
+                "Reload Time": 300,
+                "Reload Time Variance": 0,
+                "Fast Reload Variance": 0,
+                "Bullet Spread": 100,
+                "Bullet Speed": 200,
+                "Bullet Lifespan": -1,
+                "Bullet Damage": -1,
+                "Shooting Style": "Singular",
+                "Description": "With Tentchime's Signature Alphabet Soup (TM), you can teach your kids how to the alphabet while they eat!",
+            },
+        }
+    ],
+}

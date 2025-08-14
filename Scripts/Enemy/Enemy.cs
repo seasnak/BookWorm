@@ -90,6 +90,7 @@ public partial class Enemy : CharacterBody2D
 
     private void HandleDeath()
     {
+        gun.IsDisabled = true;
         gun.MagSize = 0;
         hitbox.SetCollisionMask(0);
         hurtbox.SetCollisionLayer(0);
@@ -113,19 +114,19 @@ public partial class Enemy : CharacterBody2D
         healthbar.MaxValue = health.MaxHealth;
     }
 
-    public void Kill()
+    public virtual void Kill()
     {
-        if (health.CurrHealth <= 0) is_dead = true;
+        if (health.CurrHealth <= 0) is_dead = true; // Handle Death
     }
 
-    private void OnEnemyHit()
+    protected virtual void OnEnemyHit()
     {
         AnimationPlayer hitflash_anim = GetNode<AnimationPlayer>("HitflashAnimationPlayer");
         hitflash_anim.CurrentAnimation = "hitflash";
         hitflash_anim.Play();
     }
 
-    private void OnHealthChanged(int new_value)
+    protected virtual void OnHealthChanged(int new_value)
     {
         if (health.CurrHealth <= 0)
         {
@@ -140,7 +141,7 @@ public partial class Enemy : CharacterBody2D
         UpdateHealthbar();
     }
 
-    private void OnGunReloaded()
+    protected virtual void OnGunReloaded()
     {
         gun.ReloadTimeVariance = (int)(GD.Randf() * 60);
     }

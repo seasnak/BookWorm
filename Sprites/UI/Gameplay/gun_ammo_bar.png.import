@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://md7cvqm3ks4i"
-path="res://.godot/imported/bubble_old.png-8c3c12daec0eb71eb3d06045afacb5f0.ctex"
+uid="uid://c2tb3gqtfywg"
+path="res://.godot/imported/gun_ammo_bar.png-8091f8760a223009e85285c36587b9bc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Bullets/bubble_old.png"
-dest_files=["res://.godot/imported/bubble_old.png-8c3c12daec0eb71eb3d06045afacb5f0.ctex"]
+source_file="res://Sprites/UI/Gameplay/gun_ammo_bar.png"
+dest_files=["res://.godot/imported/gun_ammo_bar.png-8091f8760a223009e85285c36587b9bc.ctex"]
 
 [params]
 

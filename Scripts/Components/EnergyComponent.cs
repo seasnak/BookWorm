@@ -17,12 +17,10 @@ public partial class EnergyComponent : Node
 
     public override void _Ready()
     {
-
     }
 
     public override void _Process(double delta)
     {
-
     }
 
     public void ExpendEnergy(int value)
