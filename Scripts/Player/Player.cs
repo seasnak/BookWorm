@@ -30,7 +30,7 @@ public partial class Player : CharacterBody2D
 
     private ulong shield_starttime = 0;
     [Export] private int shield_duration = 1000;
-    private int shield_health_cost = 5;
+    private int shield_health_cost = 0;
     private int shield_lockout = 4000;
 
     private int invuln_duration = 100;
