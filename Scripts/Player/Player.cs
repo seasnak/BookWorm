@@ -200,6 +200,7 @@ public partial class Player : CharacterBody2D
         else
         {
             targeter_location = this.GlobalPosition + new Vector2(Input.GetAxis("AimLeft", "AimRight"), Input.GetAxis("AimUp", "AimDown")) * AIM_RETICLE_RADIUS;
+            aim_reticle.Visible = targeter_location != this.GlobalPosition;
         }
         aim_reticle.Position = targeter_location;
     }
