@@ -53,6 +53,9 @@ public partial class Player : CharacterBody2D
 
     public HealthComponent Health { get => health; }
     public EnergyComponent Energy { get => energy; }
+    public AnimatedSprite2D Sprite { get => sprite; }
+    public Gun Gun { get => gun; }
+    public Shield Shield { get => shield; }
 
     // Misc
     private List<Vector2> drawn_points = new();
