@@ -1,9 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://cyij5xapg7pn6"]
+[gd_scene load_steps=16 format=3 uid="uid://cyij5xapg7pn6"]
 
 [ext_resource type="Script" uid="uid://3i0l5pvvfor1" path="res://Scripts/Player/Player.cs" id="1_vxq8l"]
 [ext_resource type="PackedScene" uid="uid://cst4slcygoxrr" path="res://Prefabs/Components/HurtboxComponent.tscn" id="2_gg3t4"]
-[ext_resource type="Texture2D" uid="uid://rtj4je8u5cxh" path="res://Sprites/Player/Player-Sheet.png" id="3_3ygst"]
 [ext_resource type="Shader" uid="uid://bxcaq6yegpeeq" path="res://Shaders/hitflash.gdshader" id="3_gg3t4"]
+[ext_resource type="Texture2D" uid="uid://c8htqebylqfyf" path="res://Sprites/Player/player[side](2).png" id="3_lhekp"]
 [ext_resource type="PackedScene" uid="uid://ca1yntao5twoo" path="res://Prefabs/Components/HealthComponent.tscn" id="5_gg3t4"]
 [ext_resource type="PackedScene" uid="uid://b1u8qakuf7jk5" path="res://Prefabs/Components/EnergyComponent.tscn" id="6_javds"]
 [ext_resource type="PackedScene" uid="uid://c8uiacyupve3n" path="res://Prefabs/Guns/AlphabetSoupGun.tscn" id="7_javds"]
@@ -14,59 +14,19 @@
 shader = ExtResource("3_gg3t4")
 shader_parameter/active = false
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lhekp"]
-atlas = ExtResource("3_3ygst")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t8lmw"]
-atlas = ExtResource("3_3ygst")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wuv02"]
-atlas = ExtResource("3_3ygst")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k2qb3"]
-atlas = ExtResource("3_3ygst")
-region = Rect2(64, 0, 32, 32)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_ggkdx"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lhekp")
-}],
-"loop": false,
-"name": &"Down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_t8lmw")
+"texture": ExtResource("3_lhekp")
 }],
 "loop": true,
-"name": &"Left",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wuv02")
-}],
-"loop": true,
-"name": &"Right",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k2qb3")
-}],
-"loop": true,
-"name": &"Up",
+"name": &"walk",
 "speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vy56e"]
-size = Vector2(22, 22)
+size = Vector2(17, 13)
 
 [sub_resource type="Animation" id="Animation_gg3t4"]
 resource_name = "hitlfash"
@@ -77,7 +37,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lhekp"]
-radius = 16.0312
+radius = 12.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gun")]
 collision_mask = 5
@@ -87,18 +47,18 @@ gun = NodePath("AlphabetSoupGun")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_javds")
 sprite_frames = SubResource("SpriteFrames_ggkdx")
-animation = &"Up"
+animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1)
+position = Vector2(-0.5, 4.5)
 shape = SubResource("RectangleShape2D_vy56e")
 
 [node name="HurtboxComponent" parent="." instance=ExtResource("2_gg3t4")]
 scale = Vector2(0.8, 0.8)
 
 [node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
-position = Vector2(-0.625, -1.25)
-scale = Vector2(0.999998, 0.999998)
+position = Vector2(-0.625001, 5.625)
+scale = Vector2(0.999996, 0.999996)
 
 [node name="HealthComponent" parent="." instance=ExtResource("5_gg3t4")]
 
@@ -112,10 +72,11 @@ libraries = {
 [node name="AlphabetSoupGun" parent="." instance=ExtResource("7_javds")]
 
 [node name="Shield" type="Area2D" parent="."]
+position = Vector2(-2, 3)
 script = ExtResource("8_lhekp")
+metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Shield"]
-scale = Vector2(1.2, 1.2)
 texture = ExtResource("8_3ygst")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shield"]

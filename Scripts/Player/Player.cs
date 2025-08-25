@@ -176,22 +176,27 @@ public partial class Player : CharacterBody2D
     private void UpdateSprites()
     {
         if (Velocity.X == 0 && Velocity.Y == 0) return;
-        else if (Velocity.X > 0)
+        else
         {
-            sprite.Play("Right");
+            sprite.Play("walk");
+            sprite.FlipH = Velocity.X < 0;
         }
-        else if (Velocity.X < 0)
-        {
-            sprite.Play("Left");
-        }
-        else if (Velocity.Y > 0)
-        {
-            sprite.Play("Down");
-        }
-        else if (Velocity.Y < 0)
-        {
-            sprite.Play("Up");
-        }
+        // else if (Velocity.X > 0)
+        // {
+        //     sprite.Play("Right");
+        // }
+        // else if (Velocity.X < 0)
+        // {
+        //     sprite.Play("Left");
+        // }
+        // else if (Velocity.Y > 0)
+        // {
+        //     sprite.Play("Down");
+        // }
+        // else if (Velocity.Y < 0)
+        // {
+        //     sprite.Play("Up");
+        // }
     }
 
     private void UpdateTargeterLocation()
