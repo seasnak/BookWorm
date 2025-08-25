@@ -26,7 +26,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vy56e"]
-size = Vector2(17, 13)
+size = Vector2(18, 20)
 
 [sub_resource type="Animation" id="Animation_gg3t4"]
 resource_name = "hitlfash"
@@ -37,7 +37,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lhekp"]
-radius = 12.0
+radius = 15.0333
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gun")]
 collision_mask = 5
@@ -50,15 +50,16 @@ sprite_frames = SubResource("SpriteFrames_ggkdx")
 animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 4.5)
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_vy56e")
 
 [node name="HurtboxComponent" parent="." instance=ExtResource("2_gg3t4")]
+visible = false
 scale = Vector2(0.8, 0.8)
 
 [node name="CollisionShape2D" parent="HurtboxComponent" index="0"]
-position = Vector2(-0.625001, 5.625)
-scale = Vector2(0.999996, 0.999996)
+position = Vector2(0.624999, 1.25)
+scale = Vector2(0.999994, 0.999994)
 
 [node name="HealthComponent" parent="." instance=ExtResource("5_gg3t4")]
 
@@ -72,7 +73,7 @@ libraries = {
 [node name="AlphabetSoupGun" parent="." instance=ExtResource("7_javds")]
 
 [node name="Shield" type="Area2D" parent="."]
-position = Vector2(-2, 3)
+position = Vector2(0, 2)
 script = ExtResource("8_lhekp")
 metadata/_edit_group_ = true
 
