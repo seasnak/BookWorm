@@ -1,15 +1,55 @@
-[gd_scene load_steps=4 format=3 uid="uid://dw4ut38twrvp0"]
+[gd_scene load_steps=11 format=3 uid="uid://dw4ut38twrvp0"]
 
 [ext_resource type="Script" uid="uid://cp7q13bdqnkk3" path="res://Scripts/Objects/Muckball.cs" id="1_v676g"]
+[ext_resource type="Texture2D" uid="uid://b4pra4cxopo1e" path="res://Sprites/Pickups/muckball.png" id="2_v676g"]
+[ext_resource type="Texture2D" uid="uid://bjo7x5c7qwtn2" path="res://Sprites/Pickups/muckball_destroy.png" id="3_rdr57"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oiekw"]
+atlas = ExtResource("3_rdr57")
+region = Rect2(0, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jo5af"]
+atlas = ExtResource("3_rdr57")
+region = Rect2(15, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1gu5q"]
+atlas = ExtResource("3_rdr57")
+region = Rect2(30, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0tcli"]
+atlas = ExtResource("3_rdr57")
+region = Rect2(45, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_34nl7"]
+atlas = ExtResource("3_rdr57")
+region = Rect2(60, 0, 15, 15)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a1cwn"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_v676g")
+}],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oiekw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jo5af")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1gu5q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0tcli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34nl7")
+}],
 "loop": true,
 "name": &"destroy",
 "speed": 5.0
@@ -21,9 +61,8 @@ radius = 8.0
 [node name="Muckball" type="Area2D"]
 script = ExtResource("1_v676g")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a1cwn")
-animation = &"destroy"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_v676g")

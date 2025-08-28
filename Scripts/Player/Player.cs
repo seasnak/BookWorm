@@ -30,7 +30,7 @@ public partial class Player : CharacterBody2D
 
     private ulong shield_starttime = 0;
     [Export] private int shield_duration = 1000;
-    private int shield_health_cost = 5;
+    private int shield_health_cost = 0;
     private int shield_lockout = 4000;
 
     private int invuln_duration = 100;
@@ -53,6 +53,9 @@ public partial class Player : CharacterBody2D
 
     public HealthComponent Health { get => health; }
     public EnergyComponent Energy { get => energy; }
+    public AnimatedSprite2D Sprite { get => sprite; }
+    public Gun Gun { get => gun; }
+    public Shield Shield { get => shield; }
 
     // Misc
     private List<Vector2> drawn_points = new();
@@ -173,22 +176,27 @@ public partial class Player : CharacterBody2D
     private void UpdateSprites()
     {
         if (Velocity.X == 0 && Velocity.Y == 0) return;
-        else if (Velocity.X > 0)
+        else
         {
-            sprite.Play("Right");
+            sprite.Play("walk");
+            sprite.FlipH = Velocity.X < 0;
         }
-        else if (Velocity.X < 0)
-        {
-            sprite.Play("Left");
-        }
-        else if (Velocity.Y > 0)
-        {
-            sprite.Play("Down");
-        }
-        else if (Velocity.Y < 0)
-        {
-            sprite.Play("Up");
-        }
+        // else if (Velocity.X > 0)
+        // {
+        //     sprite.Play("Right");
+        // }
+        // else if (Velocity.X < 0)
+        // {
+        //     sprite.Play("Left");
+        // }
+        // else if (Velocity.Y > 0)
+        // {
+        //     sprite.Play("Down");
+        // }
+        // else if (Velocity.Y < 0)
+        // {
+        //     sprite.Play("Up");
+        // }
     }
 
     private void UpdateTargeterLocation()
@@ -200,6 +208,7 @@ public partial class Player : CharacterBody2D
         else
         {
             targeter_location = this.GlobalPosition + new Vector2(Input.GetAxis("AimLeft", "AimRight"), Input.GetAxis("AimUp", "AimDown")) * AIM_RETICLE_RADIUS;
+            aim_reticle.Visible = targeter_location != this.GlobalPosition;
         }
         aim_reticle.Position = targeter_location;
     }

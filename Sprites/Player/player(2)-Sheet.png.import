@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4pra4cxopo1e"
-path="res://.godot/imported/muckball.png-3c67b10fbbfcdda340cfa49d58588b7f.ctex"
+uid="uid://nmndw43qjn61"
+path="res://.godot/imported/player(2)-Sheet.png-1113fcb29671b954ce12654a564e443d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/PaperEnemy/Generic/muckball.png"
-dest_files=["res://.godot/imported/muckball.png-3c67b10fbbfcdda340cfa49d58588b7f.ctex"]
+source_file="res://Sprites/Player/player(2)-Sheet.png"
+dest_files=["res://.godot/imported/player(2)-Sheet.png-1113fcb29671b954ce12654a564e443d.ctex"]
 
 [params]
 
