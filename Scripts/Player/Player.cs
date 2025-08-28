@@ -175,7 +175,11 @@ public partial class Player : CharacterBody2D
 
     private void UpdateSprites()
     {
-        if (Velocity.X == 0 && Velocity.Y == 0) return;
+        if (Velocity.X == 0 && Velocity.Y == 0)
+        {
+            sprite.Play("idle");
+            return;
+        }
         else
         {
             sprite.Play("walk");
