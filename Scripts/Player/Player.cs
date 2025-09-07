@@ -64,7 +64,6 @@ public partial class Player : CharacterBody2D
     private int AIM_RETICLE_RADIUS = 40;
     [Export] private Sprite2D aim_reticle;
 
-
     // Booleans
     private bool is_dashing = false;
     private bool can_dash = true;
