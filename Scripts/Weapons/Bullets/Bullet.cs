@@ -181,6 +181,12 @@ public partial class Bullet : Node2D
         }
     }
 
+    private void LoadBulletStats(string key)
+    {
+        // loads bullet from the bullets JSON file
+
+    }
+
 }
 
 

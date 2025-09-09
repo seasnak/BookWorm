@@ -22,16 +22,16 @@ public partial class Player : CharacterBody2D
     // Timers
     private ulong dash_starttime;
     private int dash_duration = 120;
-    private int dash_lockout = 500;
+    private int dash_lockout = 300;
 
     private ulong draw_starttime;
     private int draw_duration_per_energy = 10;
     private int draw_duration;
 
     private ulong shield_starttime = 0;
-    [Export] private int shield_duration = 1000;
-    private int shield_health_cost = 0;
-    private int shield_lockout = 4000;
+    [Export] private int shield_duration = 200;
+    private int shield_health_cost = 10;
+    private int shield_lockout = 500;
 
     private int invuln_duration = 100;
 
@@ -149,6 +149,7 @@ public partial class Player : CharacterBody2D
         if (Input.IsActionJustPressed("Quit"))
         {
             GetTree().Quit();
+            return;
         }
 
         if (health.CurrHealth <= 0) HandleDeath();
@@ -184,22 +185,6 @@ public partial class Player : CharacterBody2D
             sprite.Play("walk");
             sprite.FlipH = Velocity.X < 0;
         }
-        // else if (Velocity.X > 0)
-        // {
-        //     sprite.Play("Right");
-        // }
-        // else if (Velocity.X < 0)
-        // {
-        //     sprite.Play("Left");
-        // }
-        // else if (Velocity.Y > 0)
-        // {
-        //     sprite.Play("Down");
-        // }
-        // else if (Velocity.Y < 0)
-        // {
-        //     sprite.Play("Up");
-        // }
     }
 
     private void UpdateTargeterLocation()
@@ -214,10 +199,6 @@ public partial class Player : CharacterBody2D
             aim_reticle.Visible = targeter_location != this.GlobalPosition;
         }
         aim_reticle.Position = targeter_location;
-    }
-
-    private void HandleWin()
-    {
     }
 
     private void UpdateEnergy()

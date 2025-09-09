@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://p3uiudnvm2qm" path="res://Sprites/UI/Gameplay/target_reticle.png" id="15_mxeb2"]
 
 [node name="World" type="Node2D"]
+position = Vector2(-1, 0)
 
 [node name="DrawingLine" type="Line2D" parent="."]
 points = PackedVector2Array(-4, -7)
