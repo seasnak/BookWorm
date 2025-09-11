@@ -13,4 +13,20 @@ public partial class SidePlayer : CharacterBody2D
     {
     }
 
+    private void HandleMove(double delta)
+    {
+
+    }
+
+    private void HandleJump(double delta)
+    {
+    }
+
+    private void HandleDash(double delta)
+    {
+
+    }
+
+
+
 }
